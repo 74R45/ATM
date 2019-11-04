@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class PosgresDatasource {
+public class PostgresDatasource {
 
     @Bean
     @ConfigurationProperties("app.datasource")
