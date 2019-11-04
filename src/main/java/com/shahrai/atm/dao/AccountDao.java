@@ -19,7 +19,7 @@ public class AccountDao {
     }
 
     int insertAccount(Account account) {
-        return 1;
+        return 10;
     }
 
     List<Account> selectAllAccounts() {
