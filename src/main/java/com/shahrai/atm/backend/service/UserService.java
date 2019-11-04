@@ -1,6 +1,6 @@
-package com.shahrai.atm.service;
+package com.shahrai.atm.backend.service;
 
-import com.shahrai.atm.dao.UserDao;
+import com.shahrai.atm.backend.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

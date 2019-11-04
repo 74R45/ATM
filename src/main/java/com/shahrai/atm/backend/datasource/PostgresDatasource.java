@@ -1,4 +1,4 @@
-package com.shahrai.atm.datasource;
+package com.shahrai.atm.backend.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
