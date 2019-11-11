@@ -7,18 +7,20 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Account {
-    @NotBlank private final String number;
-    private final int itn;
+    @NotBlank
+    private final String number;
+    private final String itn;
     private final Timestamp expiration;
     private final boolean isCredit;
     private final BigDecimal amount;
     private final BigDecimal amountCredit;
-    @NotBlank private final String pin;
+    @NotBlank
+    private final String pin;
 
     // String number,int itn, Timestamp expiration, boolean isCredit, BigDecimal amount,BigDecimal amountCredit, String pin
 
     public Account(@JsonProperty("number") String number,
-                   @JsonProperty("itn") int itn,
+                   @JsonProperty("itn") String itn,
                    @JsonProperty("expiration") Timestamp expiration,
                    @JsonProperty("isCredit") boolean isCredit,
                    @JsonProperty("amount") BigDecimal amount,
@@ -37,7 +39,7 @@ public class Account {
         return number;
     }
 
-    public int getItn() {
+    public String getItn() {
         return itn;
     }
 

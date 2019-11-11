@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 public class User {
 
-    private final int itn;
+    @NotBlank private final String itn;
     @NotBlank private final String name;
     @NotBlank private final String surname;
     @NotBlank private final String patronymic;
@@ -17,7 +17,7 @@ public class User {
 
     // int itn, String name, String surname, String patronymic, String login, String password, String question, String answer
 
-    public User(@JsonProperty("itn") int itn,
+    public User(@JsonProperty("itn") String itn,
                 @JsonProperty("name") String name,
                 @JsonProperty("surname") String surname,
                 @JsonProperty("patronymic") String patronymic,
@@ -35,7 +35,7 @@ public class User {
         this.answer = answer;
     }
 
-    public int getItn() {
+    public String getItn() {
         return itn;
     }
 
