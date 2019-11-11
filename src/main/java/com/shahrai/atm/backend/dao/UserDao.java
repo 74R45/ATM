@@ -31,7 +31,7 @@ public class UserDao {
     }
 
     public int insertUser(User user) {
-        String query = "INSERT INTO User(itn, first_name, surname, patronymic, login, password, control_question, answer_on_cq) " +
+        String query = "INSERT INTO person (itn, first_name, surname, patronymic, login, password, control_question, answer_on_cq) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
         int id = 0;
         try (Connection conn = connect();
@@ -67,7 +67,7 @@ public class UserDao {
 
     public List<User> selectAllUsers() {
         List<User> users = new ArrayList<User>();
-        String query = "SELECT * FROM User";
+        String query = "SELECT * FROM person";
         try {
             Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -91,7 +91,7 @@ public class UserDao {
     }
 
     public Optional<User> selectPersonByItn(int itn) {
-        String query = "SELECT * FROM User WHERE itn = ?";
+        String query = "SELECT * FROM person WHERE itn = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, itn);
@@ -114,7 +114,7 @@ public class UserDao {
     }
 
     public int deletePUserByItn(int itn) {
-        String query = "DELETE FROM User WHERE itn = ?";
+        String query = "DELETE FROM person WHERE itn = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -127,7 +127,7 @@ public class UserDao {
     }
 
     public int updateUserByItn(int itn, User user) {
-        String query = "UPDATE User " +
+        String query = "UPDATE person " +
                 "SET itn = ?, first_name = ?, surname = ?, patronymic = ?," +
                 "login = ?, password = ?, control_question = ?, answer_on_cq = ?" +
                 "WHERE card_num = ?";
@@ -137,7 +137,7 @@ public class UserDao {
             ps.setInt(8, itn);
 
             ps.setString(1, user.getName());
-            ps.setString(2, user.getSurname()); // ?????
+            ps.setString(2, user.getSurname());
             ps.setString(3, user.getPatronymic());
             ps.setString(4, user.getLogin());
             ps.setString(5, user.getPassword());

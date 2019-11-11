@@ -33,7 +33,7 @@ public class AccountDao {
     }
 
     public String insertAccount(Account account) {
-        String query = "INSERT INTO Account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
+        String query = "INSERT INTO account (card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES (?,?,?,?,?,?,?)";
         String id = "";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query,
@@ -67,7 +67,7 @@ public class AccountDao {
 
     public List<Account> selectAllAccounts() {
         List<Account> accounts = new ArrayList<Account>();
-        String query = "SELECT * FROM Account";
+        String query = "SELECT * FROM account";
         try {
             Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -90,7 +90,7 @@ public class AccountDao {
     }
 
     public Optional<Account> selectAccountByNumber(String number) {
-        String query = "SELECT * FROM Account WHERE card_num = ?";
+        String query = "SELECT * FROM account WHERE card_num = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
@@ -115,7 +115,7 @@ public class AccountDao {
 
     // index and Optional??
     public int deleteAccountByNumber(String number) {
-        String query = "DELETE FROM Account WHERE card_num = ?";
+        String query = "DELETE FROM account WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -128,7 +128,7 @@ public class AccountDao {
     }
 
     public int updateAccountByNumber(String number, Account account) {
-        String query = "UPDATE Account " +
+        String query = "UPDATE account " +
                 "SET itn = ?, expiration = ?, " +
                 "is_credit_card = ?, amount = ?, amount_credit = ?, PIN = ?" +
                 "WHERE card_num = ?";
