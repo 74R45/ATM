@@ -15,6 +15,8 @@ public class Account {
     private final BigDecimal amountCredit;
     @NotBlank private final String pin;
 
+    // String number,int itn, Timestamp expiration, boolean isCredit, BigDecimal amount,BigDecimal amountCredit, String pin
+
     public Account(@JsonProperty("number") String number,
                    @JsonProperty("itn") int itn,
                    @JsonProperty("expiration") Timestamp expiration,

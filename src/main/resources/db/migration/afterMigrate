@@ -1,0 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+INSERT INTO account (id, name)
+VALUES (uuid_generate_v4(), 'Kolya');

@@ -8,6 +8,8 @@ public class Admin {
     @NotBlank private final String login;
     @NotBlank private final String password;
 
+    // String login, String password
+
     public Admin(@JsonProperty("login") String login,
                  @JsonProperty("password") String password) {
         this.login = login;

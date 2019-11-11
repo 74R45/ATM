@@ -14,6 +14,8 @@ public class Transaction {
     @NotBlank private final String cardFrom;
     @NotBlank private final String cardTo;
 
+    //UUID id, BigDecimal sumOfMoney, Timestamp dateAndTime, String cardFrom, String cardTo
+
     public Transaction(@JsonProperty("id") UUID id,
                        @JsonProperty("sumOfMoney") BigDecimal sumOfMoney,
                        @JsonProperty("dateAndTime") Timestamp dateAndTime,

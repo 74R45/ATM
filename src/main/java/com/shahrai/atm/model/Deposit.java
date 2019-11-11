@@ -14,6 +14,8 @@ public class Deposit {
     private final BigDecimal deposited;
     private final BigDecimal accrued;
 
+    //UUID idб, String itn, Timestamp expiration, BigDecimal deposited, BigDecimal accrued
+
     public Deposit(@JsonProperty("id") UUID id,
                    @JsonProperty("itn") String itn,
                    @JsonProperty("expiration") Timestamp expiration,

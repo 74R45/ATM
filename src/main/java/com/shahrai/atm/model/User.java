@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 
 public class User {
+
     private final int itn;
     @NotBlank private final String name;
     @NotBlank private final String surname;
@@ -13,6 +14,8 @@ public class User {
     @NotBlank private final String password;
     @NotBlank private final String question;
     @NotBlank private final String answer;
+
+    // int itn, String name, String surname, String patronymic, String login, String password, String question, String answer
 
     public User(@JsonProperty("itn") int itn,
                 @JsonProperty("name") String name,
