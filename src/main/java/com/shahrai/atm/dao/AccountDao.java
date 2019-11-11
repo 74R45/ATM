@@ -32,7 +32,7 @@ public class AccountDao {
         return DriverManager.getConnection(url, user, password);
     }
 
-    String insertAccount(Account account) {
+    public String insertAccount(Account account) {
         String query = "INSERT INTO Account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
         String id = "";
         try (Connection conn = connect();
@@ -65,7 +65,7 @@ public class AccountDao {
         return id;
     }
 
-    List<Account> selectAllAccounts() {
+    public List<Account> selectAllAccounts() {
         List<Account> accounts = new ArrayList<Account>();
         String query = "SELECT * FROM Account";
         try {
@@ -89,7 +89,7 @@ public class AccountDao {
         return accounts;
     }
 
-    Optional<Account> selectAccountByNumber(String number) {
+    public Optional<Account> selectAccountByNumber(String number) {
         String query = "SELECT * FROM Account WHERE card_num = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -114,7 +114,7 @@ public class AccountDao {
     }
 
     // index and Optional??
-    int deleteAccountByNumber(String number) {
+    public int deleteAccountByNumber(String number) {
         String query = "DELETE FROM Account WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
@@ -127,7 +127,7 @@ public class AccountDao {
         return res;
     }
 
-    int updateAccountByNumber(String number, Account account) {
+    public int updateAccountByNumber(String number, Account account) {
         String query = "UPDATE Account " +
                 "SET itn = ?, expiration = ?, " +
                 "is_credit_card = ?, amount = ?, amount_credit = ?, PIN = ?" +

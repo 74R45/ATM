@@ -30,7 +30,7 @@ public class AdminDao {
         return DriverManager.getConnection(url, user, password);
     }
 
-    String insertAdmin(Admin admin) {
+    public String insertAdmin(Admin admin) {
         String query = "INSERT INTO Administrator(login, password) VALUES(?,?)";
         String id = "";
         try (Connection conn = connect();
@@ -58,7 +58,7 @@ public class AdminDao {
         return id;
     }
 
-    Optional<Admin> selectPassword(String login) {
+    public Optional<Admin> selectPassword(String login) {
         String query = "SELECT password FROM Administrator WHERE login = ?";
         String password = "";
         try (Connection conn = connect();
@@ -74,7 +74,7 @@ public class AdminDao {
         return password;
     }
 
-    int deleteAdmin(String login) {
+    public int deleteAdmin(String login) {
         String query = "DELETE FROM Administrator WHERE login = ?";
         int res = 0;
         try (Connection conn = connect();
@@ -87,7 +87,7 @@ public class AdminDao {
         return res;
     }
 
-    int updateAdmin(String login, Admin admin) {
+    public int updateAdmin(String login, Admin admin) {
         String query = "UPDATE Administrator SET password = ?";
         int res = 0;
         try (Connection conn = connect();
