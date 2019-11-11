@@ -1,4 +1,4 @@
-package com.shahrai.atm.datasource;
+package com.shahrai.atm.backend.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class PosgresDatasource {
+public class PostgresDatasource {
 
     @Bean
     @ConfigurationProperties("app.datasource")

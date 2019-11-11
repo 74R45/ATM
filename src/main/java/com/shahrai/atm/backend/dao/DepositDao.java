@@ -1,6 +1,6 @@
-package com.shahrai.atm.dao;
+package com.shahrai.atm.backend.dao;
 
-import com.shahrai.atm.model.Deposit;
+import com.shahrai.atm.backend.model.Deposit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

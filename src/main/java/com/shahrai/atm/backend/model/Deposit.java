@@ -1,4 +1,4 @@
-package com.shahrai.atm.model;
+package com.shahrai.atm.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
