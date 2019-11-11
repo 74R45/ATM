@@ -18,23 +18,23 @@ public class AccountDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    int insertAccount(Account account) {
+    public int insertAccount(Account account) {
         return 1;
     }
 
-    List<Account> selectAllAccounts() {
+    public List<Account> selectAllAccounts() {
         return null;
     }
 
-    Optional<Account> selectAccountByNumber(String number) {
+    public Optional<Account> selectAccountByNumber(String number) {
         return Optional.empty();
     }
 
-    int deleteAccountByNumber(String number) {
+    public int deleteAccountByNumber(String number) {
         return 1;
     }
 
-    int updateAccountByNumber(String number, Account account) {
+    public int updateAccountByNumber(String number, Account account) {
         return 1;
     }
 }
