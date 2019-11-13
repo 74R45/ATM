@@ -32,7 +32,7 @@ public class TransactionDao {
     }
 
 //    public int insertTransaction(Transaction transaction) {
-//        String query = "INSERT INTO Transaction(id, sum, date_time, card_number_from, card_number_to) VALUES(?,?,?,?,?)";
+//        String query = "INSERT INTO transaction(id, sum, date_time, card_number_from, card_number_to) VALUES(?,?,?,?,?)";
 //        String id = "";
 //        try (Connection conn = connect();
 //             PreparedStatement ps = conn.prepareStatement(query,

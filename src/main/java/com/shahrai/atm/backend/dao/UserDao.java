@@ -113,6 +113,7 @@ public class UserDao {
         return Optional.empty();
     }
 
+
     public int deletePUserByItn(String itn) {
         String query = "DELETE FROM person WHERE itn = ?";
         int res = 0;
@@ -126,6 +127,7 @@ public class UserDao {
         return res;
     }
 
+
     public int updateUserByItn(String itn, User user) {
         String query = "UPDATE person " +
                 "SET itn = ?, first_name = ?, surname = ?, patronymic = ?," +
@@ -137,7 +139,7 @@ public class UserDao {
             ps.setString(8, itn);
 
             ps.setString(1, user.getName());
-            ps.setString(2, user.getSurname()); // ?????
+            ps.setString(2, user.getSurname());
             ps.setString(3, user.getPatronymic());
             ps.setString(4, user.getLogin());
             ps.setString(5, user.getPassword());

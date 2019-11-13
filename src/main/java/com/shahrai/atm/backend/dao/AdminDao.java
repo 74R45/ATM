@@ -29,7 +29,7 @@ public class AdminDao {
     }
 
     public String insertAdmin(Admin admin) {
-        String query = "INSERT INTO Administrator (login, password) VALUES(?,?)";
+        String query = "INSERT INTO administrator (login, password) VALUES(?,?)";
         String id = "";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query,
@@ -57,7 +57,7 @@ public class AdminDao {
     }
 
     public String selectPassword(String login) {
-        String query = "SELECT password FROM Administrator WHERE login = ?";
+        String query = "SELECT password FROM administrator WHERE login = ?";
         String password = "";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -73,7 +73,7 @@ public class AdminDao {
     }
 
     public int deleteAdmin(String login) {
-        String query = "DELETE FROM Administrator WHERE login = ?";
+        String query = "DELETE FROM administrator WHERE login = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -86,7 +86,7 @@ public class AdminDao {
     }
 
     public int updateAdmin(String login, Admin admin) {
-        String query = "UPDATE Administrator SET password = ?";
+        String query = "UPDATE administrator SET password = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
