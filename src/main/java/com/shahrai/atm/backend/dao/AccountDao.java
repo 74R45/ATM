@@ -15,9 +15,9 @@ import java.util.Optional;
 public class AccountDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String url = "jdbc:postgresql://localhost/dvdrental";
+    private final String url = "jdbc:postgresql://localhost/atm-db";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "password";
 
     // String number, int itn, Timestamp expiration, boolean isCredit, BigDecimal amount,BigDecimal amountCredit, String pin
     // card_num varchar(16), itn int, expiration date,  is_credit_card boolean, amount decimal,  amount_credit decimal, PIN int
@@ -33,14 +33,14 @@ public class AccountDao {
     }
 
     public String insertAccount(Account account) {
-        String query = "INSERT INTO account (card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
         String id = "";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query,
                      Statement.RETURN_GENERATED_KEYS)) { // what is that
 
             ps.setString(1, account.getNumber());
-            ps.setInt(2, account.getItn());
+            ps.setString(2, account.getItn());
             ps.setTimestamp(3, account.getExpiration());
             ps.setBoolean(4, account.isCredit());
             ps.setBigDecimal(5, account.getAmount());
@@ -74,8 +74,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String number = rs.getString(1);
-                int itn = rs.getInt(2);
-                Timestamp expiration = rs.getTimestamp(3); // WILL IT WORK??
+                String itn = rs.getString(2);
+                Timestamp expiration = rs.getTimestamp(3);
                 boolean isCredit = rs.getBoolean(4);
                 BigDecimal amount = rs.getBigDecimal(5);
                 BigDecimal amountCredit = rs.getBigDecimal(6);
@@ -97,15 +97,14 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String card_number = rs.getString(1);
-                int itn = rs.getInt(2);
-                Timestamp expiration = rs.getTimestamp(3); // WILL IT WORK??
+                String itn = rs.getString(2);
+                Timestamp expiration = rs.getTimestamp(3);
                 boolean isCredit = rs.getBoolean(4);
                 BigDecimal amount = rs.getBigDecimal(5);
                 BigDecimal amountCredit = rs.getBigDecimal(6);
                 String pin = rs.getString(7);
                 Account acc = new Account(card_number, itn, expiration, isCredit, amount, amountCredit, pin);
-                Optional<Account> accountOptional = Optional.of(acc);
-                return accountOptional;
+                return Optional.of(new Account(card_number, itn, expiration, isCredit, amount, amountCredit, pin));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -137,7 +136,7 @@ public class AccountDao {
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(7, number);
 
-            ps.setInt(1, account.getItn());
+            ps.setString(1, account.getItn());
             ps.setTimestamp(2, account.getExpiration());
             ps.setBoolean(3, account.isCredit());
             ps.setBigDecimal(4, account.getAmount());

@@ -12,11 +12,11 @@ import java.util.Optional;
 public class AdminDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String url = "jdbc:postgresql://localhost/dvdrental";
+    private final String url = "jdbc:postgresql://localhost/atm-db";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "password";
 
-    // login varchar(30), password VARCHAR(50)
+    // login varchar(30), password VARCHAR(64)
     // String login, String password
 
     @Autowired

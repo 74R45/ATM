@@ -15,12 +15,12 @@ import java.util.UUID;
 public class DepositDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String url = "jdbc:postgresql://localhost/dvdrental";
+    private final String url = "jdbc:postgresql://localhost/atm-db";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "password";
 
     // UUID idб, String itn, Timestamp expiration, BigDecimal deposited, BigDecimal accrued
-    // id uuid, itn integer, expiration_ date, deposited_money integer, accrued_money integer
+    // id uuid, itn varchar(12), expiration_ timestamp, deposited_money decimal, accrued_money decimal
 
     @Autowired
     public DepositDao(JdbcTemplate jdbcTemplate) {

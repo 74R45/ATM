@@ -14,12 +14,12 @@ import java.util.UUID;
 public class TransactionDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String url = "jdbc:postgresql://localhost/dvdrental";
+    private final String url = "jdbc:postgresql://localhost/atm-db";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "password";
 
     //UUID id, BigDecimal sumOfMoney, Timestamp dateAndTime, String cardFrom, String cardTo
-    //id uuid, sum decimal(40), date_time date, card_number_from integer, card_number_to integer
+    //id uuid, sum decimal, date_time timestamp, card_number_from varchar(16), card_number_to varchar(16)
     //id, sum, date_time, card_number_from, card_number_to
 
     @Autowired
