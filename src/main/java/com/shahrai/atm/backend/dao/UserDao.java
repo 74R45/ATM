@@ -13,9 +13,9 @@ import java.util.Optional;
 @Repository("postgresUser")
 public class UserDao {
     private final JdbcTemplate jdbcTemplate;
-    private final String url = "jdbc:postgresql://localhost/dvdrental";
+    private final String url = "jdbc:postgresql://localhost/atm-db";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "password";
 
     // int itn, String name, String surname, String patronymic, String login, String password, String question, String answer
     // itn int, first_name varchar(50), surname varchar(50), patronymic varchar(50), login varchar(30),password varchar(30), control_question varchar(200),answer_on_cq varchar(50)
@@ -31,14 +31,14 @@ public class UserDao {
     }
 
     public int insertUser(User user) {
-        String query = "INSERT INTO User(itn, first_name, surname, patronymic, login, password, control_question, answer_on_cq) " +
+        String query = "INSERT INTO person(itn, first_name, surname, patronymic, login, password, control_question, answer_on_cq) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
         int id = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query,
                      Statement.RETURN_GENERATED_KEYS)) { // what is that
 
-            ps.setInt(1, user.getItn());
+            ps.setString(1, user.getItn());
             ps.setString(2, user.getName());
             ps.setString(3, user.getSurname());
             ps.setString(4, user.getPatronymic());
@@ -67,13 +67,13 @@ public class UserDao {
 
     public List<User> selectAllUsers() {
         List<User> users = new ArrayList<User>();
-        String query = "SELECT * FROM User";
+        String query = "SELECT * FROM person";
         try {
             Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int itn = rs.getInt(1);
+                String itn = rs.getString(1);
                 String name = rs.getString(2);
                 String surname = rs.getString(3);
                 String patronymic = rs.getString(4);
@@ -90,14 +90,14 @@ public class UserDao {
         return users;
     }
 
-    public Optional<User> selectPersonByItn(int itn) {
-        String query = "SELECT * FROM User WHERE itn = ?";
+    public Optional<User> selectPersonByItn(String itn) {
+        String query = "SELECT * FROM person WHERE itn = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, itn);
+            ps.setString(1, itn);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int itn_db = rs.getInt(1);
+                String itn_db = rs.getString(1);
                 String name = rs.getString(2);
                 String surname = rs.getString(3);
                 String patronymic = rs.getString(4);
@@ -113,12 +113,12 @@ public class UserDao {
         return Optional.empty();
     }
 
-    public int deletePUserByItn(int itn) {
-        String query = "DELETE FROM User WHERE itn = ?";
+    public int deletePUserByItn(String itn) {
+        String query = "DELETE FROM person WHERE itn = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, itn);
+            ps.setString(1, itn);
             res = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -126,15 +126,15 @@ public class UserDao {
         return res;
     }
 
-    public int updateUserByItn(int itn, User user) {
-        String query = "UPDATE User " +
+    public int updateUserByItn(String itn, User user) {
+        String query = "UPDATE person " +
                 "SET itn = ?, first_name = ?, surname = ?, patronymic = ?," +
                 "login = ?, password = ?, control_question = ?, answer_on_cq = ?" +
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(8, itn);
+            ps.setString(8, itn);
 
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname()); // ?????
