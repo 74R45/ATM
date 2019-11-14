@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +27,14 @@ public class AccountDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Connection connect() throws SQLException {
+    private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     public String insertAccount(Account account) {
         String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
-        String id = "";
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query,
-                     Statement.RETURN_GENERATED_KEYS)) { // what is that
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, account.getNumber());
             ps.setString(2, account.getItn());
@@ -47,42 +44,25 @@ public class AccountDao {
             ps.setBigDecimal(6, account.getAmountCredit());
             ps.setString(7, account.getPin());
 
-            int affectedRows = ps.executeUpdate();
-            // check the affected rows
-            if (affectedRows > 0) {
-                // get the ID back
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getString(1);
-                    }
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+            ps.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return id;
+        return account.getNumber();
     }
 
     public List<Account> selectAllAccounts() {
         List<Account> accounts = new ArrayList<Account>();
         String query = "SELECT * FROM account";
-        try {
-            Connection conn = connect();
-            PreparedStatement ps = conn.prepareStatement(query);
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String number = rs.getString(1);
-                String itn = rs.getString(2);
-                Timestamp expiration = rs.getTimestamp(3);
-                boolean isCredit = rs.getBoolean(4);
-                BigDecimal amount = rs.getBigDecimal(5);
-                BigDecimal amountCredit = rs.getBigDecimal(6);
-                String pin = rs.getString(7);
-                Account acc = new Account(number, itn, expiration, isCredit, amount, amountCredit, pin);
-                accounts.add(acc);
+                accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBoolean(4), rs.getBigDecimal(5), rs.getBigDecimal(6), rs.getString(7)));
             }
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -95,16 +75,9 @@ public class AccountDao {
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String card_number = rs.getString(1);
-                String itn = rs.getString(2);
-                Timestamp expiration = rs.getTimestamp(3);
-                boolean isCredit = rs.getBoolean(4);
-                BigDecimal amount = rs.getBigDecimal(5);
-                BigDecimal amountCredit = rs.getBigDecimal(6);
-                String pin = rs.getString(7);
-                Account acc = new Account(card_number, itn, expiration, isCredit, amount, amountCredit, pin);
-                return Optional.of(new Account(card_number, itn, expiration, isCredit, amount, amountCredit, pin));
+            if (rs.next()) {
+                return Optional.of(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBoolean(4), rs.getBigDecimal(5), rs.getBigDecimal(6), rs.getString(7)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -112,18 +85,16 @@ public class AccountDao {
         return Optional.empty();
     }
 
-    // index and Optional??
-    public int deleteAccountByNumber(String number) {
+    public String deleteAccountByNumber(String number) {
         String query = "DELETE FROM account WHERE card_num = ?";
-        int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
-            res = ps.executeUpdate();
+            ps.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return res;
+        return number;
     }
 
     public int updateAccountByNumber(String number, Account account) {

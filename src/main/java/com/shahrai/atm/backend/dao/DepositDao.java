@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,29 +19,83 @@ public class DepositDao {
 
     // UUID idб, String itn, Timestamp expiration, BigDecimal deposited, BigDecimal accrued
     // id uuid, itn varchar(12), expiration_ timestamp, deposited_money decimal, accrued_money decimal
+    // id, itn, expiration_ , deposited_money, accrued_money
 
     @Autowired
     public DepositDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Connection connect() throws SQLException {
+    private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     public int insertDeposit(Deposit deposit) {
-        return 1;
+        String query = "INSERT INTO deposit(id, itn, expiration, deposited_money, accrued_money) VALUES(?,?,?,?,?)";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setObject(1, deposit.getId());
+            ps.setString(2, deposit.getItn());
+            ps.setTimestamp(3, deposit.getExpiration());
+            ps.setBigDecimal(4, deposit.getDeposited());
+            ps.setBigDecimal(5, deposit.getAccrued());
+
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
     }
 
     public Optional<Deposit> selectDepositById(UUID id) {
+        String query = "SELECT * FROM deposit WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new Deposit(id, rs.getString(2), rs.getTimestamp(3),
+                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
         return Optional.empty();
     }
 
     public int deleteDepositById(UUID id) {
-        return 1;
+        String query = "DELETE FROM deposit WHERE id = ?";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, id);
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
     }
 
     public int updateDepositById(UUID id, Deposit deposit) {
-        return 1;
+        String query = "UPDATE deposit " +
+                "SET itn = ?, expiration = ?, deposited_money = ?, accrued_money = ?" +
+                "WHERE id = ?";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(5, id);
+
+            ps.setString(1, deposit.getItn());
+            ps.setTimestamp(2, deposit.getExpiration());
+            ps.setBigDecimal(3, deposit.getDeposited());
+            ps.setBigDecimal(4, deposit.getAccrued());
+
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,57 +28,93 @@ public class TransactionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Connection connect() throws SQLException {
+    private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
-//    public int insertTransaction(Transaction transaction) {
-//        String query = "INSERT INTO transaction(id, sum, date_time, card_number_from, card_number_to) VALUES(?,?,?,?,?)";
-//        String id = "";
-//        try (Connection conn = connect();
-//             PreparedStatement ps = conn.prepareStatement(query,
-//                     Statement.RETURN_GENERATED_KEYS)) { // what is that
-//
-//            //UUID id, BigDecimal sumOfMoney, Timestamp dateAndTime, String cardFrom, String cardTo
-//            ps.setInt(1, account.getNumber());
-//            ps.setInt(2, account.getItn());
-//            ps.setDate(3, account.getExpiration());
-//            ps.setBoolean(4, account.isCredit());
-//            ps.setBigDecimal(5, account.getAmount());
-//            ps.setBigDecimal(6, account.getAmountCredit());
-//            ps.setString(7, account.getPin());
-//
-//            int affectedRows = ps.executeUpdate();
-//            // check the affected rows
-//            if (affectedRows > 0) {
-//                // get the ID back
-//                try (ResultSet rs = ps.getGeneratedKeys()) {
-//                    if (rs.next()) {
-//                        id = rs.getString(1);
-//                    }
-//                } catch (SQLException ex) {
-//                    System.out.println(ex.getMessage());
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//        return id;
-//    }
+    public int insertTransaction(Transaction transaction) {
+        String query = "INSERT INTO transaction(id, sum, date_time, card_number_from, card_number_to) VALUES(?,?,?,?,?)";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setObject(1, transaction.getId());
+            ps.setBigDecimal(2, transaction.getSumOfMoney());
+            ps.setTimestamp(3, transaction.getDateAndTime());
+            ps.setString(4, transaction.getCardFrom());
+            ps.setString(5, transaction.getCardTo());
+
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
+    }
 
     public List<Transaction> selectAllTransactions() {
-        return null;
+        List<Transaction> users = new ArrayList<Transaction>();
+        String query = "SELECT * FROM transaction";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                users.add(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),
+                        rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return users;
     }
 
     public Optional<Transaction> selectTransactionById(UUID id) {
+        String query = "SELECT * FROM transaction WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),
+                        rs.getString(4), rs.getString(5)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
         return Optional.empty();
     }
 
     public int deleteTransactionById(UUID id) {
-        return 1;
+        String query = "DELETE FROM person WHERE itn = ?";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(1, id);
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
     }
 
     public int updateTransactionById(UUID id, Transaction transaction) {
-        return 1;
+        String query = "UPDATE transaction " +
+                "SET id = ?, sum = ?, date_time = ?, card_number_from = ?, card_number_to = ?" +
+                "WHERE id = ?";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setObject(5, id);
+
+            ps.setBigDecimal(1, transaction.getSumOfMoney());
+            ps.setTimestamp(2, transaction.getDateAndTime());
+            ps.setString(3, transaction.getCardFrom());
+            ps.setString(4, transaction.getCardTo());
+
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
     }
 }

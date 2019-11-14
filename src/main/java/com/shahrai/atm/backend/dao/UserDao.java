@@ -26,17 +26,16 @@ public class UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Connection connect() throws SQLException {
+    private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     public int insertUser(User user) {
         String query = "INSERT INTO person(itn, first_name, surname, patronymic, login, password, control_question, answer_on_cq) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
-        int id = 0;
+        int res = 0;
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query,
-                     Statement.RETURN_GENERATED_KEYS)) { // what is that
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, user.getItn());
             ps.setString(2, user.getName());
@@ -47,42 +46,23 @@ public class UserDao {
             ps.setString(7, user.getQuestion());
             ps.setString(7, user.getAnswer());
 
-            int affectedRows = ps.executeUpdate();
-            // check the affected rows
-            if (affectedRows > 0) {
-                // get the ID back
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    }
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+            res = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return id;
+        return res;
     }
 
     public List<User> selectAllUsers() {
         List<User> users = new ArrayList<User>();
         String query = "SELECT * FROM person";
-        try {
-            Connection conn = connect();
-            PreparedStatement ps = conn.prepareStatement(query);
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String itn = rs.getString(1);
-                String name = rs.getString(2);
-                String surname = rs.getString(3);
-                String patronymic = rs.getString(4);
-                String login = rs.getString(5);
-                String password = rs.getString(6);
-                String cq = rs.getString(7);
-                String answer_cq = rs.getString(7);
-                User user = new User(itn, name, surname, patronymic, login, password, cq, answer_cq);
-                users.add(user);
+                users.add(new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(7)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -96,23 +76,15 @@ public class UserDao {
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, itn);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String itn_db = rs.getString(1);
-                String name = rs.getString(2);
-                String surname = rs.getString(3);
-                String patronymic = rs.getString(4);
-                String login = rs.getString(5);
-                String password = rs.getString(6);
-                String cq = rs.getString(7);
-                String answer_cq = rs.getString(7);
-                return Optional.of(new User(itn_db, name, surname, patronymic, login, password, cq, answer_cq));
+            if (rs.next()) {
+                return Optional.of(new User(itn, rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(7)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return Optional.empty();
     }
-
 
     public int deletePUserByItn(String itn) {
         String query = "DELETE FROM person WHERE itn = ?";
@@ -127,12 +99,11 @@ public class UserDao {
         return res;
     }
 
-
     public int updateUserByItn(String itn, User user) {
         String query = "UPDATE person " +
-                "SET itn = ?, first_name = ?, surname = ?, patronymic = ?," +
+                "SET first_name = ?, surname = ?, patronymic = ?," +
                 "login = ?, password = ?, control_question = ?, answer_on_cq = ?" +
-                "WHERE card_num = ?";
+                "WHERE itn = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {

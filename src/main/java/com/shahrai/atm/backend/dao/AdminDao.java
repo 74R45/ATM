@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.Optional;
 
 @Repository("postgresAdmin")
 public class AdminDao {
@@ -24,36 +23,23 @@ public class AdminDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Connection connect() throws SQLException {
+    private Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 
     public String insertAdmin(Admin admin) {
         String query = "INSERT INTO administrator (login, password) VALUES(?,?)";
-        String id = "";
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query,
-                     Statement.RETURN_GENERATED_KEYS)) { // what is that
+             PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, admin.getLogin());
             ps.setString(2, admin.getPassword());
+            ps.execute();
 
-            int affectedRows = ps.executeUpdate();
-            // check the affected rows
-            if (affectedRows > 0) {
-                // get the ID back
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getString(1);
-                    }
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return id;
+        return admin.getLogin();
     }
 
     public String selectPassword(String login) {
@@ -61,11 +47,13 @@ public class AdminDao {
         String password = "";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 password = rs.getString(1);
             }
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -77,8 +65,10 @@ public class AdminDao {
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, login);
             res = ps.executeUpdate();
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -86,12 +76,15 @@ public class AdminDao {
     }
 
     public int updateAdmin(String login, Admin admin) {
-        String query = "UPDATE administrator SET password = ?";
+        String query = "UPDATE administrator SET password = ? WHERE login = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, admin.getPassword());
+            ps.setString(2, login);
             res = ps.executeUpdate();
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
