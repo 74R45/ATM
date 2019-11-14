@@ -43,7 +43,7 @@ CREATE TABLE deposit
     id              uuid        NOT NULL PRIMARY KEY,
     itn             varchar(12) NOT NULL,
     FOREIGN KEY (itn) REFERENCES person (itn),
-    expiration_     timestamp   NOT NULL,
+    expiration     timestamp   NOT NULL,
     deposited_money decimal     NOT NULL,
     accrued_money   decimal     NOT NULL
 );
