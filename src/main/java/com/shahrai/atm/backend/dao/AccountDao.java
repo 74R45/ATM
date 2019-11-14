@@ -31,8 +31,9 @@ public class AccountDao {
         return DriverManager.getConnection(url, user, password);
     }
 
-    public String insertAccount(Account account) {
+    public int insertAccount(Account account) {
         String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
+        int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -44,15 +45,15 @@ public class AccountDao {
             ps.setBigDecimal(6, account.getAmountCredit());
             ps.setString(7, account.getPin());
 
-            ps.execute();
+            res = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return account.getNumber();
+        return res;
     }
 
     public List<Account> selectAllAccounts() {
-        List<Account> accounts = new ArrayList<Account>();
+        List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM account";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -85,16 +86,17 @@ public class AccountDao {
         return Optional.empty();
     }
 
-    public String deleteAccountByNumber(String number) {
+    public int deleteAccountByNumber(String number) {
         String query = "DELETE FROM account WHERE card_num = ?";
+        int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
-            ps.execute();
+            res = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return number;
+        return res;
     }
 
     public int updateAccountByNumber(String number, Account account) {

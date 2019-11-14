@@ -54,7 +54,7 @@ public class UserDao {
     }
 
     public List<User> selectAllUsers() {
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
         String query = "SELECT * FROM person";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
