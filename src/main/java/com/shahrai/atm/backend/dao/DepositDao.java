@@ -1,11 +1,14 @@
 package com.shahrai.atm.backend.dao;
 
+import com.shahrai.atm.backend.model.Account;
 import com.shahrai.atm.backend.model.Deposit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,6 +50,24 @@ public class DepositDao {
             System.out.println(ex.getMessage());
         }
         return res;
+    }
+
+    public List<Deposit> selectAllAccounts() {
+        List<Deposit> accounts = new ArrayList<>();
+        String query = "SELECT * FROM deposit";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                accounts.add(new Deposit(rs.getObject(1, java.util.UUID.class), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return accounts;
     }
 
     public Optional<Deposit> selectDepositById(UUID id) {

@@ -27,19 +27,19 @@ public class AdminDao {
         return DriverManager.getConnection(url, user, password);
     }
 
-    public String insertAdmin(Admin admin) {
+    public int insertAdmin(Admin admin) {
         String query = "INSERT INTO administrator (login, password) VALUES(?,?)";
+        int res  = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, admin.getLogin());
             ps.setString(2, admin.getPassword());
-            ps.execute();
-
+            res = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return admin.getLogin();
+        return res;
     }
 
     public String selectPassword(String login) {

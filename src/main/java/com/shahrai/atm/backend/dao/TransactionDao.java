@@ -52,7 +52,7 @@ public class TransactionDao {
     }
 
     public List<Transaction> selectAllTransactions() {
-        List<Transaction> users = new ArrayList<Transaction>();
+        List<Transaction> users = new ArrayList<>();
         String query = "SELECT * FROM transaction";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
