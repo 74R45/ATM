@@ -26,7 +26,7 @@ CREATE TABLE account
     is_blocked     boolean     NOT NULL,
     amount         decimal     NOT NULL,
     amount_credit  decimal     NOT NULL,
-    credit_limit   decimal     NULL,
+    credit_limit   decimal     NOT NULL,
     PIN            varchar(64) NOT NULL
 );
 

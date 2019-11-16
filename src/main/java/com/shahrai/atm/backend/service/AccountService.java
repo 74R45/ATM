@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -89,5 +87,53 @@ public class AccountService {
         res.put("number", account.getNumber());
         res.put("amountLeft", amountLeft);
         return res;
+    }
+
+    public List<Map<String, Object>> getAccountsByItn(String itn) {
+//        if (token.itn != itn)
+//            throw new ForbiddenException();
+
+        List<Account> accs = accountDao.selectAccountsByItn(itn);
+
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (Account acc : accs) {
+            if (!acc.isBlocked()) {
+                res.add(Map.of(
+                        "number", acc.getNumber(),
+                        "expiration", acc.getExpiration(),
+                        "isCredit", acc.isCredit(),
+                        "amount", acc.getAmount(),
+                        "amountCredit", acc.getAmountCredit(),
+                        "creditLimit", acc.getCreditLimit()));
+            }
+        }
+        return res;
+    }
+
+    public Map<String, Object> createAccount(String itn, String pin) {
+//        if (token.itn != itn)
+//            throw new ForbiddenException();
+
+        Account acc = new Account(
+                new CreditCardNumberGenerator().generate("7474", 16),
+                itn,
+                new Timestamp(System.currentTimeMillis() + 94670856000L), // now + 3 years
+                false,
+                false,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                pin);
+
+        if (accountDao.insertAccount(acc) == -1)
+            throw new NotFoundException();
+
+        return Map.of(
+                "number", acc.getNumber(),
+                "expiration", acc.getExpiration(),
+                "isCredit", acc.isCredit(),
+                "amount", acc.getAmount(),
+                "amountCredit", acc.getAmountCredit(),
+                "creditLimit", acc.getCreditLimit());
     }
 }
