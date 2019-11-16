@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,4 +129,22 @@ public class AccountDao {
         return res;
     }
 
+    public List<Account> selectAccountsByItn(String itn) {
+        List<Account> accounts = new ArrayList<>();
+        String query = "SELECT * FROM account WHERE itn = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, itn);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return accounts;
+    }
 }
