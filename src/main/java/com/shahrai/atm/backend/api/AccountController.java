@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("api/v1/account")
@@ -36,6 +37,13 @@ public class AccountController {
         return accountService.withdrawMoney(account);
     }
 
-//    @GetMapping(path = "all")
-//    public List<>
+    @GetMapping(path = "all")
+    public List<Map<String, Object>> getAccountsByItn(@RequestParam String itn) {
+        return accountService.getAccountsByItn(itn);
+    }
+
+    @PutMapping
+    public Map<String, Object> createAccount(@RequestParam("itn") String itn, @RequestParam("pin") String pin) {
+        return accountService.createAccount(itn, pin);
+    }
 }

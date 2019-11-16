@@ -120,12 +120,13 @@ public class TransactionDao {
 
     public List<Transaction> selectTransactionsOnPeriod(String number, Timestamp start, Timestamp end) {
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transaction WHERE card_number_from = ? AND date_time between ? and ?";
+        String query = "SELECT * FROM transaction WHERE (card_number_from = ? OR card_number_to = ?) AND date_time between ? and ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
-            ps.setTimestamp(1, start);
-            ps.setTimestamp(1, end);
+            ps.setString(2, number);
+            ps.setTimestamp(3, start);
+            ps.setTimestamp(4, end);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 transactions.add(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),

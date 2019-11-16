@@ -34,7 +34,7 @@ public class AccountDao {
 
     public int insertAccount(Account account) {
         String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN) VALUES(?,?,?,?,?,?,?,?,?)";
-        int res = 0;
+        int res = -1;
         try (Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -134,7 +134,7 @@ public class AccountDao {
         List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM account WHERE itn = ?";
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, itn);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
