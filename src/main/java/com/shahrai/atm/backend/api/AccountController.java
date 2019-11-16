@@ -35,4 +35,7 @@ public class AccountController {
     public Map<String, Object> withdrawMoney(@RequestBody Account account) {
         return accountService.withdrawMoney(account);
     }
+
+//    @GetMapping(path = "all")
+//    public List<>
 }
