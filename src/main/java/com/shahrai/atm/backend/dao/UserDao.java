@@ -123,4 +123,20 @@ public class UserDao {
         }
         return res;
     }
+
+    public Optional<User> selectUserByLogin(String login){
+        String query = "SELECT * FROM person WHERE login = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(7)));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return Optional.empty();
+    }
 }
