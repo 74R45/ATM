@@ -36,7 +36,7 @@ public class AccountDao {
         String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN) VALUES(?,?,?,?,?,?,?,?,?)";
         int res = 0;
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, account.getNumber());
             ps.setString(2, account.getItn());
@@ -59,7 +59,7 @@ public class AccountDao {
         List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM account";
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -77,7 +77,7 @@ public class AccountDao {
     public Optional<Account> selectAccountByNumber(String number) {
         String query = "SELECT * FROM account WHERE card_num = ?";
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -95,7 +95,7 @@ public class AccountDao {
         String query = "DELETE FROM account WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, number);
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -111,7 +111,7 @@ public class AccountDao {
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
+            PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(9, number);
 
             ps.setString(1, account.getItn());
@@ -130,4 +130,22 @@ public class AccountDao {
         return res;
     }
 
+    public List<Account> selectAccountsByItn(String itn) {
+        List<Account> accounts = new ArrayList<>();
+        String query = "SELECT * FROM account WHERE itn = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, itn);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return accounts;
+    }
 }

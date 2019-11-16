@@ -70,7 +70,7 @@ public class UserDao {
         return users;
     }
 
-    public Optional<User> selectPersonByItn(String itn) {
+    public Optional<User> selectUserByItn(String itn) {
         String query = "SELECT * FROM person WHERE itn = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -86,7 +86,7 @@ public class UserDao {
         return Optional.empty();
     }
 
-    public int deletePUserByItn(String itn) {
+    public int deleteUserByItn(String itn) {
         String query = "DELETE FROM person WHERE itn = ?";
         int res = 0;
         try (Connection conn = connect();
