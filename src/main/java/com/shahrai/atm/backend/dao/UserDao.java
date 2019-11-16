@@ -124,7 +124,7 @@ public class UserDao {
         return res;
     }
 
-    public Optional<User> selectUserByLogin(String login){
+    public Optional<User> selectUserByLogin(String login) {
         String query = "SELECT * FROM person WHERE login = ?";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -139,4 +139,6 @@ public class UserDao {
         }
         return Optional.empty();
     }
+
+
 }

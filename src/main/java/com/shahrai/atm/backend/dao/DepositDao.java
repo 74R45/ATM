@@ -1,6 +1,5 @@
 package com.shahrai.atm.backend.dao;
 
-import com.shahrai.atm.backend.model.Account;
 import com.shahrai.atm.backend.model.Deposit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -118,5 +117,23 @@ public class DepositDao {
             System.out.println(ex.getMessage());
         }
         return res;
+    }
+
+    public List<Deposit> selectDepositsByItn(String itn) {
+        List<Deposit> deposits = new ArrayList<>();
+        String query = "SELECT * FROM deposit WHERE itn = ?";
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, itn);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                deposits.add(new Deposit(rs.getObject(1, java.util.UUID.class), rs.getString(2), rs.getTimestamp(3),
+                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return deposits;
     }
 }
