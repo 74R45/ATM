@@ -52,20 +52,20 @@ public class TransactionDao {
     }
 
     public List<Transaction> selectAllTransactions() {
-        List<Transaction> transactions = new ArrayList<>();
+        List<Transaction> users = new ArrayList<>();
         String query = "SELECT * FROM transaction";
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                transactions.add(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),
+                users.add(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),
                         rs.getString(4), rs.getString(5)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return transactions;
+        return users;
     }
 
     public Optional<Transaction> selectTransactionById(UUID id) {
@@ -116,24 +116,5 @@ public class TransactionDao {
             System.out.println(ex.getMessage());
         }
         return res;
-    }
-
-    public List<Transaction> selectTransactionsOnPeriod(String number, Timestamp start, Timestamp end) {
-        List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transaction WHERE card_number_from = ? AND date_time between ? and ?";
-        try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, number);
-            ps.setTimestamp(1, start);
-            ps.setTimestamp(1, end);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                transactions.add(new Transaction(rs.getObject(1, java.util.UUID.class), rs.getBigDecimal(2), rs.getTimestamp(3),
-                        rs.getString(4), rs.getString(5)));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return transactions;
     }
 }
