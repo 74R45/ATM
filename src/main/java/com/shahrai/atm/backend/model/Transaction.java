@@ -18,7 +18,7 @@ public class Transaction {
 
     public Transaction(@JsonProperty("id") UUID id,
                        @JsonProperty("sumOfMoney") BigDecimal sumOfMoney,
-                       @JsonProperty("dateAndTime") Timestamp dateAndTime,
+                       @JsonProperty("timestamp") Timestamp dateAndTime,
                        @JsonProperty("cardFrom") String cardFrom,
                        @JsonProperty("cardTo") String cardTo) {
         this.id = id;

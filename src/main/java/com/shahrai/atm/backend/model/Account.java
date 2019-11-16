@@ -12,8 +12,10 @@ public class Account {
     private final String itn;
     private final Timestamp expiration;
     private final boolean isCredit;
+    private final boolean isBlocked;
     private final BigDecimal amount;
     private final BigDecimal amountCredit;
+    private final BigDecimal creditLimit;
     @NotBlank
     private final String pin;
 
@@ -23,15 +25,19 @@ public class Account {
                    @JsonProperty("itn") String itn,
                    @JsonProperty("expiration") Timestamp expiration,
                    @JsonProperty("isCredit") boolean isCredit,
+                   @JsonProperty("isBlocked") boolean isBlocked,
                    @JsonProperty("amount") BigDecimal amount,
                    @JsonProperty("amountCredit") BigDecimal amountCredit,
+                   @JsonProperty("creditLimit") BigDecimal creditLimit,
                    @JsonProperty("pin") String pin) {
         this.number = number;
         this.itn = itn;
         this.expiration = expiration;
         this.isCredit = isCredit;
+        this.isBlocked = isBlocked;
         this.amount = amount;
         this.amountCredit = amountCredit;
+        this.creditLimit = creditLimit;
         this.pin = pin;
     }
 
@@ -51,12 +57,20 @@ public class Account {
         return isCredit;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
 
     public BigDecimal getAmountCredit() {
         return amountCredit;
+    }
+
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
     }
 
     public String getPin() {
