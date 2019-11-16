@@ -32,7 +32,7 @@ public class AccountDao {
     }
 
     public int insertAccount(Account account) {
-        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, amount, amount_credit, PIN) VALUES(?,?,?,?,?,?,?)";
+        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN) VALUES(?,?,?,?,?,?,?,?,?)";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -41,9 +41,11 @@ public class AccountDao {
             ps.setString(2, account.getItn());
             ps.setTimestamp(3, account.getExpiration());
             ps.setBoolean(4, account.isCredit());
-            ps.setBigDecimal(5, account.getAmount());
-            ps.setBigDecimal(6, account.getAmountCredit());
-            ps.setString(7, account.getPin());
+            ps.setBoolean(5, account.isBlocked());
+            ps.setBigDecimal(6, account.getAmount());
+            ps.setBigDecimal(7, account.getAmountCredit());
+            ps.setBigDecimal(8, account.getCreditLimit());
+            ps.setString(9, account.getPin());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -61,7 +63,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBoolean(4), rs.getBigDecimal(5), rs.getBigDecimal(6), rs.getString(7)));
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
             }
 
         } catch (SQLException ex) {
@@ -78,7 +81,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBoolean(4), rs.getBigDecimal(5), rs.getBigDecimal(6), rs.getString(7)));
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -102,19 +106,21 @@ public class AccountDao {
     public int updateAccountByNumber(String number, Account account) {
         String query = "UPDATE account " +
                 "SET itn = ?, expiration = ?, " +
-                "is_credit_card = ?, amount = ?, amount_credit = ?, PIN = ?" +
+                "is_credit_card = ?, is_blocked = ?, amount = ?, amount_credit = ?, credit_limit = ?, PIN = ?" +
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(7, number);
+            ps.setString(9, number);
 
             ps.setString(1, account.getItn());
             ps.setTimestamp(2, account.getExpiration());
             ps.setBoolean(3, account.isCredit());
-            ps.setBigDecimal(4, account.getAmount());
-            ps.setBigDecimal(5, account.getAmountCredit());
-            ps.setString(6, account.getPin());
+            ps.setBoolean(4, account.isBlocked());
+            ps.setBigDecimal(5, account.getAmount());
+            ps.setBigDecimal(6, account.getAmountCredit());
+            ps.setBigDecimal(7, account.getCreditLimit());
+            ps.setString(8, account.getPin());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {

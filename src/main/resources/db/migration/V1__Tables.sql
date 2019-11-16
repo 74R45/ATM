@@ -5,9 +5,9 @@ CREATE TABLE person
     surname          varchar(50)  NOT NULL,
     patronymic       varchar(50)  NULL,
     login            varchar(30)  NOT NULL,
-    password         varchar(30)  NOT NULL,
+    password         varchar(64)  NOT NULL,
     control_question varchar(200) NOT NULL,
-    answer_on_cq     varchar(50)  NOT NULL
+    answer_on_cq     varchar(64)  NOT NULL
 );
 
 CREATE TABLE administrator
@@ -23,8 +23,10 @@ CREATE TABLE account
     FOREIGN KEY (itn) REFERENCES person (itn),
     expiration     timestamp   NOT NULL,
     is_credit_card boolean     NOT NULL,
+    is_blocked     boolean     NOT NULL,
     amount         decimal     NOT NULL,
     amount_credit  decimal     NOT NULL,
+    credit_limit   decimal     NULL,
     PIN            varchar(64) NOT NULL
 );
 
