@@ -1,6 +1,7 @@
 package com.shahrai.atm.backend.service;
 
 import com.shahrai.atm.backend.dao.AccountDao;
+import com.shahrai.atm.backend.exceptions.AtmLoginException;
 import com.shahrai.atm.backend.exceptions.BadRequestException;
 import com.shahrai.atm.backend.exceptions.NotAcceptableException;
 import com.shahrai.atm.backend.exceptions.NotFoundException;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -32,7 +32,7 @@ public class AccountService {
         if (dbAcc.get().getPin().equals(account.getPin()))
             return 0;
         else
-            throw new NotAcceptableException();
+            throw new NotAcceptableException("2");
     }
 
     public Map<String, BigDecimal> checkBalance(String number) {
@@ -66,7 +66,7 @@ public class AccountService {
                         dbAcc.get().getCreditLimit()).subtract(dbAcc.get().getAmountCredit())) <= 0) {
                     BigDecimal amountCredit = dbAcc.get().getAmountCredit().add(account.getAmount()).subtract(dbAcc.get().getAmount());
                     Account newAccount = new Account(account.getNumber(), dbAcc.get().getItn(), dbAcc.get().getExpiration(),
-                            dbAcc.get().isCredit(), dbAcc.get().isBlocked(), BigDecimal.ZERO, amountCredit, dbAcc.get().getCreditLimit(), dbAcc.get().getPin());
+                            dbAcc.get().isCredit(), dbAcc.get().isBlocked(), BigDecimal.ZERO, amountCredit, dbAcc.get().getCreditLimit(), dbAcc.get().getPin(), 3);
                     dbReturned = accountDao.updateAccountByNumber(account.getNumber(), newAccount);
                 } else {
                     throw new BadRequestException();
@@ -77,7 +77,7 @@ public class AccountService {
             Account newAccount = new Account(account.getNumber(), dbAcc.get().getItn(), dbAcc.get().getExpiration(),
                     dbAcc.get().isCredit(), dbAcc.get().isBlocked(),
                     dbAcc.get().getAmount().subtract(account.getAmount()),
-                    dbAcc.get().getAmountCredit(), dbAcc.get().getCreditLimit(), dbAcc.get().getPin());
+                    dbAcc.get().getAmountCredit(), dbAcc.get().getCreditLimit(), dbAcc.get().getPin(), 3);
             dbReturned = accountDao.updateAccountByNumber(account.getNumber(), newAccount);
         }
         BigDecimal amountLeft = checkBalance(account.getNumber()).get("amount");
@@ -105,7 +105,8 @@ public class AccountService {
                         "isCredit", acc.isCredit(),
                         "amount", acc.getAmount(),
                         "amountCredit", acc.getAmountCredit(),
-                        "creditLimit", acc.getCreditLimit()));
+                        "creditLimit", acc.getCreditLimit(),
+                        "attemptsLeft", acc.getAttemptsLeft()));
             }
         }
         return res;
@@ -124,7 +125,8 @@ public class AccountService {
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
-                pin);
+                pin,
+                3);
 
         if (accountDao.insertAccount(acc) == -1)
             throw new NotFoundException();
@@ -169,7 +171,8 @@ public class AccountService {
                 dbAcc.get().getAmount(),
                 dbAcc.get().getAmountCredit(),
                 account.getCreditLimit(),
-                dbAcc.get().getPin()
+                dbAcc.get().getPin(),
+                dbAcc.get().getAttemptsLeft()
         ));
     }
 
@@ -197,7 +200,8 @@ public class AccountService {
                 dbAcc.get().getAmount().subtract(dbAcc.get().getAmountCredit()),
                 BigDecimal.ZERO,
                 BigDecimal.ZERO,
-                dbAcc.get().getPin()
+                dbAcc.get().getPin(),
+                dbAcc.get().getAttemptsLeft()
         ));
     }
 }

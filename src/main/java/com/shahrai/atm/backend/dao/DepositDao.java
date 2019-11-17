@@ -1,6 +1,5 @@
 package com.shahrai.atm.backend.dao;
 
-import com.shahrai.atm.backend.model.Account;
 import com.shahrai.atm.backend.model.Deposit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,7 +33,7 @@ public class DepositDao {
     }
 
     public int insertDeposit(Deposit deposit) {
-        String query = "INSERT INTO deposit(id, itn, expiration, deposited_money, accrued_money) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO deposit(id, itn, expiration, deposited_money) VALUES(?,?,?,?)";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -42,8 +41,7 @@ public class DepositDao {
             ps.setObject(1, deposit.getId());
             ps.setString(2, deposit.getItn());
             ps.setTimestamp(3, deposit.getExpiration());
-            ps.setBigDecimal(4, deposit.getDeposited());
-            ps.setBigDecimal(5, deposit.getAccrued());
+            ps.setBigDecimal(4, deposit.getAmount());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -61,7 +59,7 @@ public class DepositDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 accounts.add(new Deposit(rs.getObject(1, java.util.UUID.class), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+                        rs.getBigDecimal(4)));
             }
 
         } catch (SQLException ex) {
@@ -78,7 +76,7 @@ public class DepositDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of(new Deposit(id, rs.getString(2), rs.getTimestamp(3),
-                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+                        rs.getBigDecimal(4)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -101,17 +99,16 @@ public class DepositDao {
 
     public int updateDepositById(UUID id, Deposit deposit) {
         String query = "UPDATE deposit " +
-                "SET itn = ?, expiration = ?, deposited_money = ?, accrued_money = ?" +
+                "SET itn = ?, expiration = ?, deposited_money = ?" +
                 "WHERE id = ?";
         int res = 0;
         try (Connection conn = connect();
              PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setObject(5, id);
+            ps.setObject(4, id);
 
             ps.setString(1, deposit.getItn());
             ps.setTimestamp(2, deposit.getExpiration());
-            ps.setBigDecimal(3, deposit.getDeposited());
-            ps.setBigDecimal(4, deposit.getAccrued());
+            ps.setBigDecimal(3, deposit.getAmount());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -129,7 +126,7 @@ public class DepositDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 deposits.add(new Deposit(rs.getObject(1, java.util.UUID.class), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBigDecimal(4), rs.getBigDecimal(5)));
+                        rs.getBigDecimal(4)));
             }
 
         } catch (SQLException ex) {

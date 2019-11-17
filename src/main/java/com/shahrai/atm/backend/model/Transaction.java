@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class Transaction {
     private final UUID id;
-    private final BigDecimal sumOfMoney;
+    private final BigDecimal amount;
     private final Timestamp dateAndTime;
     @NotBlank private final String cardFrom;
     @NotBlank private final String cardTo;
@@ -17,12 +17,12 @@ public class Transaction {
     //UUID id, BigDecimal sumOfMoney, Timestamp dateAndTime, String cardFrom, String cardTo
 
     public Transaction(@JsonProperty("id") UUID id,
-                       @JsonProperty("sumOfMoney") BigDecimal sumOfMoney,
+                       @JsonProperty("amount") BigDecimal amount,
                        @JsonProperty("timestamp") Timestamp dateAndTime,
                        @JsonProperty("cardFrom") String cardFrom,
                        @JsonProperty("cardTo") String cardTo) {
         this.id = id;
-        this.sumOfMoney = sumOfMoney;
+        this.amount = amount;
         this.dateAndTime = dateAndTime;
         this.cardFrom = cardFrom;
         this.cardTo = cardTo;
@@ -32,8 +32,8 @@ public class Transaction {
         return id;
     }
 
-    public BigDecimal getSumOfMoney() {
-        return sumOfMoney;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     public Timestamp getDateAndTime() {
