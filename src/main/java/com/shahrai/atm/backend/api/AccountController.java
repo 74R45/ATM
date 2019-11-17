@@ -46,4 +46,14 @@ public class AccountController {
     public Map<String, Object> createAccount(@RequestParam("itn") String itn, @RequestParam("pin") String pin) {
         return accountService.createAccount(itn, pin);
     }
+
+    @PostMapping(path = "/credit/activate")
+    public int activateCredit(@RequestBody Account account) {
+        return accountService.activateCredit(account);
+    }
+
+    @PostMapping(path = "/credit/deactivate")
+    public int deactivateCredit(@RequestBody Account account) {
+        return accountService.deactivateCredit(account);
+    }
 }

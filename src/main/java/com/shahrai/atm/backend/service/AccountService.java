@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -135,5 +136,68 @@ public class AccountService {
                 "amount", acc.getAmount(),
                 "amountCredit", acc.getAmountCredit(),
                 "creditLimit", acc.getCreditLimit());
+    }
+
+    public int activateCredit(Account account) {
+//        if (token.number != number)
+//            throw new ForbiddenException();
+
+        if (account.getCreditLimit().compareTo(BigDecimal.valueOf(5000)) > 0)
+            throw new BadRequestException("The chosen limit is greater than 5000.00.");
+
+        Optional<Account> dbAcc = accountDao.selectAccountByNumber(account.getNumber());
+        if (dbAcc.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        if (dbAcc.get().isCredit())
+            throw new BadRequestException("This card is already a credit card.");
+
+        List<Map<String, Object>> accs = getAccountsByItn(dbAcc.get().getItn());
+        for (Map<String, Object> acc : accs) {
+            if (acc.get("isCredit") == Boolean.TRUE) {
+                throw new BadRequestException("The user already has a credit card.");
+            }
+        }
+
+        return accountDao.updateAccountByNumber(account.getNumber(), new Account(
+                dbAcc.get().getNumber(),
+                dbAcc.get().getItn(),
+                dbAcc.get().getExpiration(),
+                true,
+                dbAcc.get().isBlocked(),
+                dbAcc.get().getAmount(),
+                dbAcc.get().getAmountCredit(),
+                account.getCreditLimit(),
+                dbAcc.get().getPin()
+        ));
+    }
+
+    public int deactivateCredit(Account account) {
+//        if (token.number != number)
+//            throw new ForbiddenException();
+
+        Optional<Account> dbAcc = accountDao.selectAccountByNumber(account.getNumber());
+        if (dbAcc.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        if (!dbAcc.get().isCredit())
+            throw new BadRequestException("This card is already not a credit card.");
+
+        if (dbAcc.get().getAmountCredit().subtract(dbAcc.get().getAmount()).compareTo(BigDecimal.ZERO) > 0)
+            throw new BadRequestException("There's still money on the credit.");
+
+        return accountDao.updateAccountByNumber(account.getNumber(), new Account(
+                dbAcc.get().getNumber(),
+                dbAcc.get().getItn(),
+                dbAcc.get().getExpiration(),
+                false,
+                dbAcc.get().isBlocked(),
+                dbAcc.get().getAmount().subtract(dbAcc.get().getAmountCredit()),
+                BigDecimal.ZERO,
+                BigDecimal.ZERO,
+                dbAcc.get().getPin()
+        ));
     }
 }
