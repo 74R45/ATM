@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class AccountDao {
     }
 
     public int insertAccount(Account account) {
-        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN) VALUES(?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN, attempts_left) VALUES(?,?,?,?,?,?,?,?,?,3)";
         int res = -1;
         try (Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query)) {
@@ -65,7 +64,7 @@ public class AccountDao {
             while (rs.next()) {
                 accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
                         rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
             }
 
         } catch (SQLException ex) {
@@ -83,7 +82,7 @@ public class AccountDao {
             if (rs.next()) {
                 return Optional.of(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
                         rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -104,15 +103,32 @@ public class AccountDao {
         return res;
     }
 
+    public int updateAttempts(String number, int attempts) {
+        String query = "UPDATE account " +
+                "SET attempts_left = ?" +
+                "WHERE card_num = ?";
+        int res = 0;
+        try (Connection conn = connect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, attempts);
+            ps.setString(2, number);
+
+            res = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return res;
+    }
+
     public int updateAccountByNumber(String number, Account account) {
         String query = "UPDATE account " +
                 "SET itn = ?, expiration = ?, " +
-                "is_credit_card = ?, is_blocked = ?, amount = ?, amount_credit = ?, credit_limit = ?, PIN = ?" +
+                "is_credit_card = ?, is_blocked = ?, amount = ?, amount_credit = ?, credit_limit = ?, PIN = ?, attempts_left = ?" +
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(9, number);
+            ps.setString(10, number);
 
             ps.setString(1, account.getItn());
             ps.setTimestamp(2, account.getExpiration());
@@ -122,6 +138,7 @@ public class AccountDao {
             ps.setBigDecimal(6, account.getAmountCredit());
             ps.setBigDecimal(7, account.getCreditLimit());
             ps.setString(8, account.getPin());
+            ps.setInt(9, account.getAttemptsLeft());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -140,7 +157,7 @@ public class AccountDao {
             while (rs.next()) {
                 accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
                         rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9)));
+                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
             }
 
         } catch (SQLException ex) {

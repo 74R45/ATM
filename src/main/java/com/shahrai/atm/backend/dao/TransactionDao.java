@@ -39,7 +39,7 @@ public class TransactionDao {
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setObject(1, transaction.getId());
-            ps.setBigDecimal(2, transaction.getSumOfMoney());
+            ps.setBigDecimal(2, transaction.getAmount());
             ps.setTimestamp(3, transaction.getDateAndTime());
             ps.setString(4, transaction.getCardFrom());
             ps.setString(5, transaction.getCardTo());
@@ -106,7 +106,7 @@ public class TransactionDao {
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setObject(5, id);
 
-            ps.setBigDecimal(1, transaction.getSumOfMoney());
+            ps.setBigDecimal(1, transaction.getAmount());
             ps.setTimestamp(2, transaction.getDateAndTime());
             ps.setString(3, transaction.getCardFrom());
             ps.setString(4, transaction.getCardTo());

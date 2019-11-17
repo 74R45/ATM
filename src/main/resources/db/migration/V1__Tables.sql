@@ -27,7 +27,8 @@ CREATE TABLE account
     amount         decimal     NOT NULL,
     amount_credit  decimal     NOT NULL,
     credit_limit   decimal     NOT NULL,
-    PIN            varchar(64) NOT NULL
+    PIN            varchar(64) NOT NULL,
+    attempts_left  int         NOT NULL
 );
 
 CREATE TABLE transaction
@@ -46,6 +47,5 @@ CREATE TABLE deposit
     itn             varchar(12) NOT NULL,
     FOREIGN KEY (itn) REFERENCES person (itn),
     expiration     timestamp   NOT NULL,
-    deposited_money decimal     NOT NULL,
-    accrued_money   decimal     NOT NULL
+    deposited_money decimal     NOT NULL
 );

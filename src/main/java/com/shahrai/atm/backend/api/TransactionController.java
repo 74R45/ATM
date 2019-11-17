@@ -3,11 +3,9 @@ package com.shahrai.atm.backend.api;
 import com.shahrai.atm.backend.model.Transaction;
 import com.shahrai.atm.backend.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -27,5 +25,10 @@ public class TransactionController {
                                                          @RequestParam("start") Timestamp start,
                                                          @RequestParam("end") Timestamp end) {
         return transactionService.getTransactionsDuringPeriod(number, start, end);
+    }
+
+    @PutMapping
+    public Transaction makeTransaction(@Valid @RequestBody Transaction transaction) {
+        return transactionService.makeTransaction(transaction);
     }
 }
