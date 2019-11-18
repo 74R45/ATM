@@ -17,8 +17,33 @@ $(document).ready(function () {
         withdraw_ajax_submit();
 
     });
+
     document.getElementById("withdraw").onclick = function () {
         window.location.href = "withdraw.html";
+    }
+
+    document.getElementById("checkBalance").onclick = function () {
+
+        check_bal_ajax();
+        // window.location.href = "checkBalance.html";
+    }
+    function check_bal_ajax(){
+        console.log(num);
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/account/balance?number=" + localStorage.getItem("storageName"),
+            // data: JSON.stringify(atmUser),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log("SUCCESS : ", data);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
     }
     function atm_login() {
 
