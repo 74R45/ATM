@@ -5,6 +5,20 @@
     <title>ATM</title>
 </head>
 <body>
+<div id="balance" style="font-weight: bold; font-size: 30px; text-align: center;"></div>
+<script>
+    window.onload = function() {
+        var amount = localStorage.getItem("amount");
+        var div = document.createElement("DIV");
+        div.innerHTML = "AMOUNT: " + amount;
+        document.getElementById("balance").appendChild(div);
 
+
+        var creditLimit = localStorage.getItem("creditLimit");
+        var divCredLimit = document.createElement("DIV");
+        divCredLimit.innerHTML = "CREDIT LIMIT: " + creditLimit;
+        document.getElementById("balance").appendChild(divCredLimit);
+    }
+</script>
 </body>
 </html>

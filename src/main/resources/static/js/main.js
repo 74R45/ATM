@@ -38,7 +38,10 @@ $(document).ready(function () {
             cache: false,
             timeout: 600000,
             success: function (data) {
-                console.log("SUCCESS : ", data);
+                localStorage.setItem("amount",data["amount"]);
+                localStorage.setItem("creditLimit",data["creditLimit"]);
+                // console.log("SUCCESS : ", data);
+                window.location.href = "checkBalance.html";
             },
             error: function (e) {
                 console.log("ERROR : ", e);
