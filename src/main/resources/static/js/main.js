@@ -34,6 +34,10 @@ $(document).ready(function () {
         check_bal_ajax();
         // window.location.href = "checkBalance.html";
     }
+    // WHY DOESNT WORK ??
+    // at the beginning of main js there is var checkBalanceAndTransactions
+    // in onlineBankFirstPage.html there is button with checkBalanceAndTransactions id
+    // there is main.js in scripts of onlineBankFirstPage.html
     checkBalanceAndTransactions.onclick = function () {
         console.log("CHECK ");
     }
