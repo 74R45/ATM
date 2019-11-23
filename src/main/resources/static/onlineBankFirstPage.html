@@ -65,6 +65,7 @@
         });
         // console.log("get itn after ajax: ", localStorage.getItem("itn"));
         // + localStorage.getItem("itn")
+        var dataArr = {}
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -76,12 +77,20 @@
             success: function (data) {
                 // localStorage.setItem("number", data["number"]);
                 console.log("GET USER INFO BY ITN: ");
-                console.log(data)
+                console.log(data["0"]["number"]);
+                console.log(data["0"]["isCredit"]);
+
+
+                dataArr["number"] = data["0"]["number"];
+
+                // console.log(localStorage.getItem("data", data);)
             },
             error: function (e) {
                 console.log("ERROR : ", e);
             }
         });
+        localStorage.setItem("data", dataArr);
+        window.location.href = "checkBalanceAndTransactions.html";
     }
 </script>
 </body>
