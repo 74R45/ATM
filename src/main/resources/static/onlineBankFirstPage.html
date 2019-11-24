@@ -76,7 +76,16 @@
                 console.log("GET USER INFO BY ITN: ");
                 console.log(data["0"]["number"]);
                 console.log(data["0"]["isCredit"]);
-                localStorage.setItem("numberData", data["0"]["number"]);
+                console.log("data.length", data.length);
+                localStorage.setItem("dataLength", data.length);
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    localStorage.setItem("cardNum" + i, data[i]["number"]);
+                    localStorage.setItem("cardIsCredit" + i, data[i]["isCredit"]);
+                }
+
+
+                window.location.href = "checkBalanceAndTransactions.html";
 
             },
             error: function (e) {
@@ -84,7 +93,7 @@
             }
         });
 
-        window.location.href = "checkBalanceAndTransactions.html";
+
     }
 </script>
 </body>
