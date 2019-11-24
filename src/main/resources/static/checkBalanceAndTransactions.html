@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online bank</title>
+</head>
+<body>
+<div id="selectCard">Select card: </div>
+
+<script type="text/javascript" src="js/main.js"></script>
+<script>
+    var data = localStorage.getItem("data");
+    var div = document.createElement("DIV");
+    console.log(data["number"]);
+    window.onload = function() {
+        // for (var i = 0; i < data.length; i++) {
+        //     i = i.toString();
+
+            // div.innerHTML = "CARD NUM: " + data["0"]["number"] + "; IsCredit? " + data["0"]["isCredit"];
+            // document.getElementById("selectCard").appendChild(div);
+
+       // }
+}
+</script>
+</body>
+</html>
