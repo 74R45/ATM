@@ -16,7 +16,7 @@
 
         for (j = 0; j < dataLength; j++) {
 
-            var div = document.createElement("DIV");
+            var button = document.createElement("BUTTON");
 
             var isCredit;
             if(localStorage.getItem("cardIsCredit" + j) === true){
@@ -25,8 +25,9 @@
                 isCredit = "Not credit card";
             }
             console.log(j);
-            div.innerHTML = "CARD " + (j + 1) + " : " + localStorage.getItem("cardNum" + j) + isCredit;
-            document.getElementById("selectCard").appendChild(div);
+            button.innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j) + "<br>" + isCredit;
+            document.getElementById("selectCard").appendChild(button);
+
         }
 }
 </script>
