@@ -36,7 +36,7 @@
     </div>
 </div>
 <script type="text/javascript" src="js/main.js"></script>
-<!--<script type="text/javascript" src="js/onlineBankFirstPage.js"></script>-->
+
 <script>
     var checkBalanceAndTransactions = document.getElementById("checkBalanceAndTransactions");
     checkBalanceAndTransactions.onclick = function () {
@@ -64,29 +64,19 @@
                 console.log("ERROR : ", e);
             }
         });
-        // console.log("get itn after ajax: ", localStorage.getItem("itn"));
-        // + localStorage.getItem("itn")
 
-        // var dataArr = {}
         $.ajax({
             type: "GET",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
-            //data: JSON.stringify(sumToWithdraw),
             dataType: 'json',
             cache: false,
             timeout: 600000,
             success: function (data) {
-                // localStorage.setItem("number", data["number"]);
                 console.log("GET USER INFO BY ITN: ");
                 console.log(data["0"]["number"]);
                 console.log(data["0"]["isCredit"]);
-
                 localStorage.setItem("numberData", data["0"]["number"]);
-
-                // dataArr["number"] = data["0"]["number"];
-
-                // console.log(localStorage.getItem("data", data);)
 
             },
             error: function (e) {
@@ -94,8 +84,6 @@
             }
         });
 
-
-        // console.log("GET ITEM ", localStorage.getItem("data"));
         window.location.href = "checkBalanceAndTransactions.html";
     }
 </script>
