@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // to store card num in localStorage
     var num = 0;
-    var checkBalanceAndTransactions = document.getElementById("checkBalanceAndTransactions");
+
     // Forms
     $("#atm-form").submit(function (event) {
 
@@ -32,15 +32,9 @@ $(document).ready(function () {
     document.getElementById("checkBalance").onclick = function () {
 
         check_bal_ajax();
-        // window.location.href = "checkBalance.html";
+
     }
-    // WHY DOESNT WORK ??
-    // at the beginning of main js there is var checkBalanceAndTransactions
-    // in onlineBankFirstPage.html there is button with checkBalanceAndTransactions id
-    // there is main.js in scripts of onlineBankFirstPage.html
-    checkBalanceAndTransactions.onclick = function () {
-        console.log("CHECK ");
-    }
+
     function check_bal_ajax(){
         console.log(num);
         $.ajax({
@@ -152,42 +146,7 @@ $(document).ready(function () {
         });
 
     }
-    function check_balance_transactions(){
 
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
-            //data: JSON.stringify(sumToWithdraw),
-            dataType: 'json',
-            cache: false,
-            timeout: 600000,
-            success: function (data) {
-                console.log("GET ITN BY LOGIN: ", data["itn"])
-                localStorage.setItem("onlineBankLogin", data["itn"]);
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
-        });
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
-            //data: JSON.stringify(sumToWithdraw),
-            dataType: 'json',
-            cache: false,
-            timeout: 600000,
-            success: function (data) {
-                // localStorage.setItem("number", data["number"]);
-                console.log("GET USER INFO BY ITN: ");
-                console.log(data)
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
-        });
-    }
 });
 
 
