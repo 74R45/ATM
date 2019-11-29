@@ -42,7 +42,7 @@
     checkBalanceAndTransactions.onclick = function () {
         console.log("CHECK ");
         check_balance_transactions();
-    }
+    };
 
     function check_balance_transactions() {
 
@@ -83,17 +83,12 @@
                     localStorage.setItem("cardNum" + i, data[i]["number"]);
                     localStorage.setItem("cardIsCredit" + i, data[i]["isCredit"]);
                 }
-
-
                 window.location.href = "checkBalanceAndTransactions.html";
-
             },
             error: function (e) {
                 console.log("ERROR : ", e);
             }
         });
-
-
     }
 </script>
 </body>

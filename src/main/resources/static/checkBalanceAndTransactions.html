@@ -5,31 +5,29 @@
     <title>Online bank</title>
 </head>
 <body>
-<div id="selectCard">Select card: </div>
+<div id="selectCard">Select card:</div>
 
 <!--<script type="text/javascript" src="js/main.js"></script>-->
 <script>
     var dataLength = localStorage.getItem("dataLength");
 
-    window.onload = function() {
+    window.onload = function () {
         var j;
 
         for (j = 0; j < dataLength; j++) {
-
             var button = document.createElement("BUTTON");
-
             var isCredit;
-            if(localStorage.getItem("cardIsCredit" + j) === true){
+
+            if (localStorage.getItem("cardIsCredit" + j) === true) {
                 isCredit = "Credit card";
-            }else{
+            } else {
                 isCredit = "Not credit card";
             }
             console.log(j);
             button.innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j) + "<br>" + isCredit;
             document.getElementById("selectCard").appendChild(button);
-
         }
-}
+    }
 </script>
 
 </body>
