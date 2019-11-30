@@ -25,11 +25,6 @@ $(document).ready(function () {
 
     });
 
-    var but0 = document.getElementById("but0");
-    but0.onclick = function () {
-        console.log("but" + localStorage.getItem("cardNum0") + " onclick ");
-    }
-
     document.getElementById("withdraw").onclick = function () {
         window.location.href = "withdraw.html";
     }

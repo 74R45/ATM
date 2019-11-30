@@ -9,7 +9,6 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script>
     var dataLength = localStorage.getItem("dataLength");
-    var buttonsGet = [];
     window.onload = function() {
         var j;
         var buttons = [];
@@ -29,8 +28,6 @@
             buttons[j].id = "but" + j;
             console.log(buttons[j].id);
             document.getElementById("selectCard").appendChild(buttons[j]);
-
-
 
         }
         var but0 = document.getElementById("but0");
