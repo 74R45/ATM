@@ -23,7 +23,7 @@ public class AccountController {
     }
 
     @PostMapping(path = "/login")
-    public int login(@Valid @NotNull @RequestBody Account account) {
+    public Map<String, Object> login(@Valid @NotNull @RequestBody Account account) {
         return accountService.login(account);
     }
 
@@ -55,5 +55,20 @@ public class AccountController {
     @PostMapping(path = "/credit/deactivate")
     public int deactivateCredit(@RequestBody Account account) {
         return accountService.deactivateCredit(account);
+    }
+
+    @DeleteMapping(path = "/block")
+    public int blockAccount(@RequestParam("number") String number) {
+        return accountService.blockAccount(number);
+    }
+
+    @PostMapping(path = "/unblock")
+    public int unblockAccount(@RequestParam("number") String number) {
+        return accountService.unblockAccount(number);
+    }
+
+    @DeleteMapping(path = "/delete")
+    public Map<String, Object> deleteAccount(@RequestParam("number") String number) {
+        return accountService.deleteAccount(number);
     }
 }

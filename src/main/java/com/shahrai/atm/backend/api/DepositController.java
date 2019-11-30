@@ -1,5 +1,6 @@
 package com.shahrai.atm.backend.api;
 
+import com.shahrai.atm.backend.model.Account;
 import com.shahrai.atm.backend.model.Deposit;
 import com.shahrai.atm.backend.service.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RequestMapping("api/v1/deposit")
 @RestController
@@ -27,5 +29,10 @@ public class DepositController {
     @GetMapping(path = "/all")
     public List<Map<String, Object>> getDepositsByItn(@RequestParam("itn") String itn) {
         return depositService.getDepositsByItn(itn);
+    }
+
+    @DeleteMapping
+    public int withdrawToAccount(@RequestParam("id") UUID id, @RequestBody Account account) {
+        return depositService.withdrawToAccount(id, account);
     }
 }
