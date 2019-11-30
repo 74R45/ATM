@@ -26,6 +26,7 @@ $(document).ready(function () {
         check_bal_ajax();
     };
 
+
     function check_bal_ajax() {
         console.log(num);
         $.ajax({

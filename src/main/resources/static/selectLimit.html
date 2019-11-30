@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online banking</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container" style="min-height: 500px">
+
+    <div class="starter-template">
+
+        <form class="form-horizontal" id="select-limit-form">
+            <div class="form-group form-group-lg">
+                <label class="col-sm-2 control-label">Select limit: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="creditLimit"/>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" id="bth-credit-limit"
+                            class="btn btn-primary btn-lg">Ok
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    window.onload = function() {
+        $("#select-limit-form").submit(function (event) {
+            event.preventDefault();
+            activate_credit();
+        });
+
+        function activate_credit() {
+            var limit = {}
+            limit["number"] = localStorage.getItem("buttonClicked");
+            limit["creditLimit"] = parseFloat($("#creditLimit").val());
+
+            $("#bth-credit-limit").prop("disabled", true);
+            console.log(JSON.stringify(limit));
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/v1/account/credit/activate",
+                data: JSON.stringify(limit),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log("SUCCESS : ", data);
+
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
