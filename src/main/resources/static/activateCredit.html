@@ -9,54 +9,68 @@
 <script>
     var dataLength = localStorage.getItem("dataLength");
     window.onload = function() {
-        var j;
-        var buttons = [];
+        var k;
+        var isCreditCount = 0;
+        for (k = 0; k < dataLength; k++) {
+            if (localStorage.getItem("cardIsCredit" + k) === "true") {
+                isCreditCount = 1;
+                var divYouCantMakeCardCredit = document.createElement("DIV");
+                divYouCantMakeCardCredit.innerHTML = "YOU ALREADY HAVE CREDIT CARD";
+                document.getElementById("selectCardForCredAct").appendChild(divYouCantMakeCardCredit);
+            }
+        }
+        if(isCreditCount === 0){
+            var j;
+            var buttons = [];
 
-        for (j = 0; j < dataLength; j++) {
+            for (j = 0; j < dataLength; j++) {
 
-            if(localStorage.getItem("cardIsCredit" + j) === "true"){
-                // This card will not be shown
-            }else{
                 buttons[j] = document.createElement("BUTTON");
                 buttons[j].innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j);
                 buttons[j].id = "but" + j;
                 console.log(buttons[j].id);
                 document.getElementById("selectCardForCredAct").appendChild(buttons[j]);
+
+
             }
+            var but0 = document.getElementById("but0");
+            var but1 = document.getElementById("but1");
+            var but2 = document.getElementById("but2");
+            if(but0 !== null) {
+                but0.onclick = function () {
+                    console.log("but" + localStorage.getItem("cardNum0") + " onclick ");
+                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum0"));
+                    localStorage.setItem("cardIndex", "0");
+                    window.location.href = "balanceAndTransactions.html";
+                }
+
+            }
+            if(but1 !== null) {
+                but1.onclick = function () {
+                    console.log("but" + localStorage.getItem("cardNum1") + " onclick ");
+                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum1"));
+                    localStorage.setItem("cardIndex", "1");
+                    window.location.href = "balanceAndTransactions.html";
+                }
+
+            }
+            if(but2 !== null) {
+                but2.onclick = function () {
+                    console.log("but" + localStorage.getItem("cardNum2") + " onclick ");
+                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum2"));
+                    localStorage.setItem("cardIndex", "2");
+                    window.location.href = "balanceAndTransactions.html";
+                }
+
+            }
+        }
+
+
 
         }
-        var but0 = document.getElementById("but0");
-        var but1 = document.getElementById("but1");
-        var but2 = document.getElementById("but2");
-        if(but0 !== null) {
-            but0.onclick = function () {
-                console.log("but" + localStorage.getItem("cardNum0") + " onclick ");
-                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum0"));
-                localStorage.setItem("cardIndex", "0");
-                window.location.href = "balanceAndTransactions.html";
-            }
 
-        }
-        if(but1 !== null) {
-            but1.onclick = function () {
-                console.log("but" + localStorage.getItem("cardNum1") + " onclick ");
-                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum1"));
-                localStorage.setItem("cardIndex", "1");
-                window.location.href = "balanceAndTransactions.html";
-            }
 
-        }
-        if(but2 !== null) {
-            but2.onclick = function () {
-                console.log("but" + localStorage.getItem("cardNum2") + " onclick ");
-                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum2"));
-                localStorage.setItem("cardIndex", "2");
-                window.location.href = "balanceAndTransactions.html";
-            }
 
-        }
-
-    }
 
 </script>
 </body>
