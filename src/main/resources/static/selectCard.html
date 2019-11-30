@@ -18,12 +18,14 @@
             buttons[j] = document.createElement("BUTTON");
 
             var isCredit;
-            if(localStorage.getItem("cardIsCredit" + j) === true){
+
+            if(localStorage.getItem("cardIsCredit" + j) === "true"){
                 isCredit = "Credit card";
             }else{
                 isCredit = "Not credit card";
             }
-            console.log(j);
+
+            console.log("isCredit " , localStorage.getItem("cardIsCredit" + j));
             buttons[j].innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j) + "<br>" + isCredit;
             buttons[j].id = "but" + j;
             console.log(buttons[j].id);
