@@ -47,6 +47,8 @@ public class TransactionService {
         Account dbFrom;
         try {
             dbFrom = accountDao.selectAccountByNumber(transaction.getCardFrom()).get();
+            if (dbFrom.isBlocked())
+                throw new NoSuchElementException();
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Card of the sender not found.");
         }
@@ -54,6 +56,8 @@ public class TransactionService {
         Account dbTo;
         try {
             dbTo = accountDao.selectAccountByNumber(transaction.getCardTo()).get();
+            if (dbTo.isBlocked())
+                throw new NoSuchElementException();
         } catch (NoSuchElementException e) {
             throw new NotFoundException("Card of the recipient not found.");
         }
@@ -68,19 +72,30 @@ public class TransactionService {
                 dbFrom.getExpiration(),
                 dbFrom.isCredit(),
                 dbFrom.isBlocked(),
+                dbFrom.getDeletionTime(),
                 dbFrom.getAmount().subtract(transaction.getAmount()),
                 dbFrom.getAmountCredit(),
                 dbFrom.getCreditLimit(),
+                dbFrom.getNextCreditTime(),
                 dbFrom.getPin(),
                 dbFrom.getAttemptsLeft()
         ));
         BigDecimal newAmountCredit, newAmount;
+        Timestamp newNextCreditTime = dbTo.getNextCreditTime();
         if (dbTo.getAmountCredit().compareTo(transaction.getAmount()) >= 0) {
             newAmountCredit = dbTo.getAmountCredit().subtract(transaction.getAmount());
             newAmount = dbTo.getAmount();
+            if (newNextCreditTime.before(new Timestamp(System.currentTimeMillis()))) {
+                int months;
+                for (months = 0; newNextCreditTime.getTime() + 2592000000L*months <= System.currentTimeMillis(); months++) {
+                    newAmountCredit = newAmountCredit.multiply(new BigDecimal("1.02"));
+                }
+                newNextCreditTime = new Timestamp(newNextCreditTime.getTime() + 2592000000L*months);
+            }
         } else {
             newAmountCredit = BigDecimal.ZERO;
             newAmount = dbTo.getAmount().add(transaction.getAmount().subtract(dbTo.getAmountCredit()));
+            newNextCreditTime = null;
         }
         accountDao.updateAccountByNumber(dbTo.getNumber(), new Account(
                 dbTo.getNumber(),
@@ -88,9 +103,11 @@ public class TransactionService {
                 dbTo.getExpiration(),
                 dbTo.isCredit(),
                 dbTo.isBlocked(),
+                dbTo.getDeletionTime(),
                 newAmount,
                 newAmountCredit,
                 dbTo.getCreditLimit(),
+                newNextCreditTime,
                 dbTo.getPin(),
                 dbTo.getAttemptsLeft()
         ));

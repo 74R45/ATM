@@ -132,7 +132,7 @@ public class UserDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of(new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(7)));
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

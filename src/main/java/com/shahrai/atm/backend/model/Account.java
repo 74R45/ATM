@@ -13,9 +13,11 @@ public class Account {
     private final Timestamp expiration;
     private final boolean isCredit;
     private final boolean isBlocked;
+    private final Timestamp deletionTime;
     private final BigDecimal amount;
     private final BigDecimal amountCredit;
     private final BigDecimal creditLimit;
+    private final Timestamp nextCreditTime;
     @NotBlank
     private final String pin;
     private final int attemptsLeft;
@@ -27,9 +29,11 @@ public class Account {
                    @JsonProperty("expiration") Timestamp expiration,
                    @JsonProperty("isCredit") boolean isCredit,
                    @JsonProperty("isBlocked") boolean isBlocked,
+                   @JsonProperty("deletionTime") Timestamp deletionTime,
                    @JsonProperty("amount") BigDecimal amount,
                    @JsonProperty("amountCredit") BigDecimal amountCredit,
                    @JsonProperty("creditLimit") BigDecimal creditLimit,
+                   @JsonProperty("nextCreditTime") Timestamp nextCreditTime,
                    @JsonProperty("pin") String pin,
                    @JsonProperty("attemptsLeft") int attemptsLeft) {
         this.number = number;
@@ -37,9 +41,11 @@ public class Account {
         this.expiration = expiration;
         this.isCredit = isCredit;
         this.isBlocked = isBlocked;
+        this.deletionTime = deletionTime;
         this.amount = amount;
         this.amountCredit = amountCredit;
         this.creditLimit = creditLimit;
+        this.nextCreditTime = nextCreditTime;
         this.pin = pin;
         this.attemptsLeft = attemptsLeft;
     }
@@ -64,6 +70,10 @@ public class Account {
         return isBlocked;
     }
 
+    public Timestamp getDeletionTime() {
+        return deletionTime;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -74,6 +84,10 @@ public class Account {
 
     public BigDecimal getCreditLimit() {
         return creditLimit;
+    }
+
+    public Timestamp getNextCreditTime() {
+        return nextCreditTime;
     }
 
     public String getPin() {

@@ -32,7 +32,7 @@ public class AccountDao {
     }
 
     public int insertAccount(Account account) {
-        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN, attempts_left) VALUES(?,?,?,?,?,?,?,?,?,3)";
+        String query = "INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, deletion_time, amount, amount_credit, credit_limit, next_credit_time, PIN, attempts_left) VALUES(?,?,?,?,?,?,?,?,?,?,?,3)";
         int res = -1;
         try (Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query)) {
@@ -42,10 +42,12 @@ public class AccountDao {
             ps.setTimestamp(3, account.getExpiration());
             ps.setBoolean(4, account.isCredit());
             ps.setBoolean(5, account.isBlocked());
-            ps.setBigDecimal(6, account.getAmount());
-            ps.setBigDecimal(7, account.getAmountCredit());
-            ps.setBigDecimal(8, account.getCreditLimit());
-            ps.setString(9, account.getPin());
+            ps.setTimestamp(6, account.getDeletionTime());
+            ps.setBigDecimal(7, account.getAmount());
+            ps.setBigDecimal(8, account.getAmountCredit());
+            ps.setBigDecimal(9, account.getCreditLimit());
+            ps.setTimestamp(10, account.getNextCreditTime());
+            ps.setString(11, account.getPin());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -63,8 +65,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getTimestamp(6), rs.getBigDecimal(7),
+                        rs.getBigDecimal(8), rs.getBigDecimal(9), rs.getTimestamp(10), rs.getString(11), rs.getInt(12)));
             }
 
         } catch (SQLException ex) {
@@ -81,8 +83,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getTimestamp(6), rs.getBigDecimal(7),
+                        rs.getBigDecimal(8), rs.getBigDecimal(9), rs.getTimestamp(10), rs.getString(11), rs.getInt(12)));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -103,14 +105,14 @@ public class AccountDao {
         return res;
     }
 
-    public int updateAttempts(String number, int attempts) {
+    public int updateAccountAttemptsLeftByNumber(String number, int attemptsLeft) {
         String query = "UPDATE account " +
                 "SET attempts_left = ?" +
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, attempts);
+            PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, attemptsLeft);
             ps.setString(2, number);
 
             res = ps.executeUpdate();
@@ -122,23 +124,25 @@ public class AccountDao {
 
     public int updateAccountByNumber(String number, Account account) {
         String query = "UPDATE account " +
-                "SET itn = ?, expiration = ?, " +
-                "is_credit_card = ?, is_blocked = ?, amount = ?, amount_credit = ?, credit_limit = ?, PIN = ?, attempts_left = ?" +
+                "SET itn = ?, expiration = ?, is_credit_card = ?, is_blocked = ?, deletion_time = ?, " +
+                "amount = ?, amount_credit = ?, credit_limit = ?, next_credit_time = ?, PIN = ?, attempts_left = ?" +
                 "WHERE card_num = ?";
         int res = 0;
         try (Connection conn = connect();
             PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(10, number);
+            ps.setString(12, number);
 
             ps.setString(1, account.getItn());
             ps.setTimestamp(2, account.getExpiration());
             ps.setBoolean(3, account.isCredit());
             ps.setBoolean(4, account.isBlocked());
-            ps.setBigDecimal(5, account.getAmount());
-            ps.setBigDecimal(6, account.getAmountCredit());
-            ps.setBigDecimal(7, account.getCreditLimit());
-            ps.setString(8, account.getPin());
-            ps.setInt(9, account.getAttemptsLeft());
+            ps.setTimestamp(5, account.getDeletionTime());
+            ps.setBigDecimal(6, account.getAmount());
+            ps.setBigDecimal(7, account.getAmountCredit());
+            ps.setBigDecimal(8, account.getCreditLimit());
+            ps.setTimestamp(9, account.getNextCreditTime());
+            ps.setString(10, account.getPin());
+            ps.setInt(11, account.getAttemptsLeft());
 
             res = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -156,8 +160,8 @@ public class AccountDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 accounts.add(new Account(rs.getString(1), rs.getString(2), rs.getTimestamp(3),
-                        rs.getBoolean(4), rs.getBoolean(5), rs.getBigDecimal(6),
-                        rs.getBigDecimal(7), rs.getBigDecimal(8), rs.getString(9), rs.getInt(10)));
+                        rs.getBoolean(4), rs.getBoolean(5), rs.getTimestamp(6), rs.getBigDecimal(7),
+                        rs.getBigDecimal(8), rs.getBigDecimal(9), rs.getTimestamp(10), rs.getString(11), rs.getInt(12)));
             }
 
         } catch (SQLException ex) {
