@@ -36,17 +36,29 @@
         if(but0 !== null) {
             but0.onclick = function () {
                 console.log("but" + localStorage.getItem("cardNum0") + " onclick ");
+                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum0"));
+                localStorage.setItem("cardIndex", "0");
+                window.location.href = "balanceAndTransactions.html";
             }
+
         }
         if(but1 !== null) {
             but1.onclick = function () {
                 console.log("but" + localStorage.getItem("cardNum1") + " onclick ");
+                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum1"));
+                localStorage.setItem("cardIndex", "1");
+                window.location.href = "balanceAndTransactions.html";
             }
+
         }
         if(but2 !== null) {
             but2.onclick = function () {
                 console.log("but" + localStorage.getItem("cardNum2") + " onclick ");
+                localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum2"));
+                localStorage.setItem("cardIndex", "2");
+                window.location.href = "balanceAndTransactions.html";
             }
+
         }
 
 }

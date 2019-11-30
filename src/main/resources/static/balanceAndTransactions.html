@@ -2,9 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Online bank</title>
 </head>
 <body>
+<div id="balanceAndTrans" style="font-weight: bold; font-size: 30px; text-align: center;"></div>
+<script>
+    window.onload = function() {
+        var buttonClicked = localStorage.getItem("buttonClicked");
+        console.log("Button clicked ", localStorage.getItem("buttonClicked"));
+        var cardIndex = localStorage.getItem("cardIndex");
+        console.log("cardIndex ", localStorage.getItem("cardIndex"));
 
+        var cardNum = buttonClicked;
+        var div = document.createElement("DIV");
+        div.innerHTML = "CARD NUMBER : " + cardNum;
+        document.getElementById("balanceAndTrans").appendChild(div);
+
+
+        var balance = localStorage.getItem("amount" + cardIndex);
+        var divBalance = document.createElement("DIV");
+        divBalance.innerHTML = "BALANCE: " + balance;
+        document.getElementById("balanceAndTrans").appendChild(divBalance);
+
+        var creditBalance = localStorage.getItem("amountCredit" + cardIndex);
+        var divCreditBalance = document.createElement("DIV");
+        divCreditBalance.innerHTML = "AMOUNT CREDIT : " + creditBalance;
+        document.getElementById("balanceAndTrans").appendChild(divCreditBalance);
+
+        var creditLimit = localStorage.getItem("creditLimit" + cardIndex);
+        var divCreditLimit = document.createElement("DIV");
+        divCreditLimit.innerHTML = "CREDIT LIMIT : " + creditLimit;
+        document.getElementById("balanceAndTrans").appendChild(divCreditLimit);
+    }
+</script>
 </body>
 </html>
