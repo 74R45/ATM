@@ -42,7 +42,7 @@
     checkBalanceAndTransactions.onclick = function () {
         console.log("CHECK ");
         check_balance_transactions();
-    }
+    };
 
     var activateCredit = document.getElementById("activateCredit");
     activateCredit.onclick = function () {
@@ -99,13 +99,13 @@
 
                 window.location.href = "selectCard.html";
 
-            },
+                },
+
+
             error: function (e) {
                 console.log("ERROR : ", e);
             }
         });
-
-
     }
 </script>
 </body>

@@ -4,38 +4,29 @@ $(document).ready(function () {
 
     // Forms
     $("#atm-form").submit(function (event) {
-
         event.preventDefault();
-
         atm_login();
-
     });
+
     $("#withdraw-form").submit(function (event) {
-
         event.preventDefault();
-
         withdraw_ajax_submit();
-
     });
+
     $("#onl-bank-login-form").submit(function (event) {
-
         event.preventDefault();
-
         online_bank_login();
-
     });
 
     document.getElementById("withdraw").onclick = function () {
         window.location.href = "withdraw.html";
-    }
+    };
 
     document.getElementById("checkBalance").onclick = function () {
-
         check_bal_ajax();
+    };
 
-    }
-
-    function check_bal_ajax(){
+    function check_bal_ajax() {
         console.log(num);
         $.ajax({
             type: "GET",
@@ -46,8 +37,8 @@ $(document).ready(function () {
             cache: false,
             timeout: 600000,
             success: function (data) {
-                localStorage.setItem("amount",data["amount"]);
-                localStorage.setItem("creditLimit",data["creditLimit"]);
+                localStorage.setItem("amount", data["amount"]);
+                localStorage.setItem("creditLimit", data["creditLimit"]);
                 // console.log("SUCCESS : ", data);
                 window.location.href = "checkBalance.html";
             },
@@ -56,15 +47,15 @@ $(document).ready(function () {
             }
         });
     }
-    function atm_login() {
 
+    function atm_login() {
         var atmUser = {}
         atmUser["number"] = $("#number").val();
         atmUser["pin"] = $("#pin").val();
         $("#btn-atm-user").prop("disabled", true);
-        console.log(JSON.stringify(atmUser))
+        console.log(JSON.stringify(atmUser));
         num = $("#number").val();
-        localStorage.setItem("storageName",num);
+        localStorage.setItem("storageName", num);
         console.log(num);
         // document.getElementById('numToShowWithWithdraw').innerHTML = num;
         $.ajax({
@@ -81,20 +72,18 @@ $(document).ready(function () {
                 window.location.href = "atmFirstPage.html";
             },
             error: function (e) {
-
                 console.log("ERROR : ", e);
                 $("#btn-atm-user").prop("disabled", false);
 
             }
         });
-
     }
 
     function online_bank_login() {
-        var onlineBankUser = {}
+        var onlineBankUser = {};
         onlineBankUser["login"] = $("#onlBankLogin").val();
         onlineBankUser["password"] = $("#onlBankPass").val();
-        localStorage.setItem("onlineBankLogin",$("#onlBankLogin").val());
+        localStorage.setItem("onlineBankLogin", $("#onlBankLogin").val());
         $("#bth-onl-bank-user").prop("disabled", true);
         console.log(JSON.stringify(onlineBankUser))
         $.ajax({
@@ -111,7 +100,6 @@ $(document).ready(function () {
                 window.location.href = "onlineBankFirstPage.html";
             },
             error: function (e) {
-
                 console.log("ERROR : ", e);
                 $("#bth-onl-bank-user").prop("disabled", false);
 
@@ -120,7 +108,6 @@ $(document).ready(function () {
     }
 
     function withdraw_ajax_submit() {
-
         var sumToWithdraw = {}
         sumToWithdraw["number"] = localStorage.getItem("storageName");
         sumToWithdraw["amount"] = $("#amount").val();
@@ -135,18 +122,13 @@ $(document).ready(function () {
             cache: false,
             timeout: 600000,
             success: function (data) {
-
             },
             error: function (e) {
-
                 console.log("ERROR : ", e);
                 $("#bth-withdraw").prop("disabled", false);
-
             }
         });
-
     }
-
 });
 
 
