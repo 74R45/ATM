@@ -47,6 +47,7 @@
     var activateCredit = document.getElementById("activateCredit");
     activateCredit.onclick = function () {
         console.log("ACTIVATE CREDIT ");
+
         window.location.href = "activateCredit.html";
     }
 
@@ -88,13 +89,13 @@
                 for (i = 0; i < data.length; i++) {
                     localStorage.setItem("cardNum" + i, data[i]["number"]);
                     localStorage.setItem("cardIsCredit" + i, data[i]["isCredit"]);
+                    console.log("typeof ", typeof(data[i]["isCredit"]));
 
                     localStorage.setItem("amount" + i, data[i]["amount"]);
                     localStorage.setItem("amountCredit" + i, data[i]["amountCredit"]);
                     localStorage.setItem("creditLimit" + i, data[i]["creditLimit"]);
 
                 }
-
 
                 window.location.href = "selectCard.html";
 
