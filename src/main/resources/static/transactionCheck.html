@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online bank</title>
+    <link rel="stylesheet" href="css/transaction_check.css">
+</head>
+<body>
+<div id="transactionCheck"></div>
+<button id="print" class="print">Print</button>
+<button id="mainMenu" class="mainMenu">Main menu</button>
+</body>
+<script>
+    window.onload = function(){
+        var transactionAmount = document.createElement("DIV");
+        var transactionCardFrom = document.createElement("DIV");
+        var transactionCardTo = document.createElement("DIV");
+        var transactionTimestamp = document.createElement("DIV");
+
+        transactionAmount.innerHTML = "Transaction sum: " + localStorage.getItem("transactionAmount");
+        transactionCardFrom.innerHTML = "Card from: " + localStorage.getItem("transactionCardFrom");
+        transactionCardTo.innerHTML = "Card to: " + localStorage.getItem("transactionCardTo");
+        transactionTimestamp.innerHTML = "Time: " + localStorage.getItem("transactionTimestamp");
+
+        transactionAmount.id = "transactionAmount";
+        transactionCardFrom.id = "transactionCardFrom";
+        transactionCardTo.id = "transactionCardTo";
+        transactionTimestamp.id = "transactionTimestamp";
+
+        document.getElementById("transactionCheck").appendChild(transactionAmount);
+        document.getElementById("transactionCheck").appendChild(transactionCardFrom);
+        document.getElementById("transactionCheck").appendChild(transactionCardTo);
+        document.getElementById("transactionCheck").appendChild(transactionTimestamp);
+
+        document.getElementById("mainMenu").onclick = function () {
+            window.location.href = "onlineBankFirstPage.html";
+        };
+        document.getElementById("print").onclick = function () {
+          window.print();
+        };
+    }
+</script>
+</html>

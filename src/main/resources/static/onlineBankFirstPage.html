@@ -33,11 +33,20 @@
                     class="btn btn-primary btn-lg">Deposit menu
             </button>
         </div>
+
     </div>
+
 </div>
+<button id="endWorkOnlineBank">End work</button>
+
 <script type="text/javascript" src="js/main.js"></script>
 
 <script>
+    var endWorkOnlineBank = document.getElementById("endWorkOnlineBank");
+    endWorkOnlineBank.onclick = function () {
+      window.location.href = "onlineBankLogin.html";
+    };
+
     var checkBalanceAndTransactions = document.getElementById("checkBalanceAndTransactions");
     checkBalanceAndTransactions.onclick = function () {
         console.log("CHECK ");
@@ -56,6 +65,52 @@
         window.location.href = "depositMenu.html";
     }
 
+    var transactions = document.getElementById("transactions");
+    transactions.onclick = function () {
+        transactions_ajax();
+    }
+    function transactions_ajax(){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log("GET ITN BY LOGIN: ", data["itn"])
+                localStorage.setItem("itn", data["itn"]);
+                console.log("typeof itn");
+                console.log(typeof data["itn"]);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+                localStorage.setItem("dataLength", data.length);
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    localStorage.setItem("cardNum" + i, data[i]["number"]);
+                }
+
+                window.location.href = "transactionsSelectCards.html";
+            },
+
+
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+    }
     function click_activate_credit() {
 
         $.ajax({
