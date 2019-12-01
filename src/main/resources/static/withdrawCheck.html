@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATM</title>
+</head>
+<body>
+<div id="withdrawCheck"></div>
+<button>Print</button>
+<button id="mainMenuAtm">Main menu</button>
+<script>
+    window.onload = function() {
+        var withdrawNumber = document.createElement("DIV");
+        var withdrawAmountLeft = document.createElement("DIV");
+        var withdrawAmount = document.createElement("DIV");
+        var withdrawTimestamp = document.createElement("DIV");
+
+        withdrawNumber.innerHTML = "Card number: " + localStorage.getItem("withdrawNumber");
+        withdrawAmountLeft.innerHTML = "Current balance: " + localStorage.getItem("withdrawAmountLeft");
+        withdrawAmount.innerHTML = "Amount that you withdraw: " + localStorage.getItem("withdrawAmount");
+        withdrawTimestamp.innerHTML = "Time: " + localStorage.getItem("withdrawTimestamp");
+
+        withdrawNumber.id = "withdrawNumberId";
+        withdrawAmountLeft.id = "withdrawAmountLeftId";
+        withdrawAmount.id = "withdrawAmountId";
+        withdrawTimestamp.id = "withdrawTimestampId";
+
+        document.getElementById("withdrawCheck").appendChild(withdrawNumber);
+        document.getElementById("withdrawCheck").appendChild(withdrawAmountLeft);
+        document.getElementById("withdrawCheck").appendChild(withdrawAmount);
+        document.getElementById("withdrawCheck").appendChild(withdrawTimestamp);
+
+        document.getElementById("mainMenuAtm").onclick = function () {
+            window.location.href = "atmFirstPage.html";
+        };
+    }
+</script>
+</body>
+</html>

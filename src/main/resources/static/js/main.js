@@ -26,6 +26,9 @@ $(document).ready(function () {
         check_bal_ajax();
     };
 
+    document.getElementById("endWork").onclick = function () {
+        window.location.href = "index.html";
+    };
 
     function check_bal_ajax() {
         console.log(num);
@@ -123,10 +126,15 @@ $(document).ready(function () {
             cache: false,
             timeout: 600000,
             success: function (data) {
+                localStorage.setItem("withdrawNumber", data["number"]);
+                localStorage.setItem("withdrawAmountLeft", data["amountLeft"]);
+                localStorage.setItem("withdrawAmount", data["amount"]);
+                localStorage.setItem("withdrawTimestamp", data["timestamp"]);
+
+                window.location.href = "withdrawCheck.html";
             },
             error: function (e) {
                 console.log("ERROR : ", e);
-                $("#bth-withdraw").prop("disabled", false);
             }
         });
     }
