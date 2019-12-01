@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Online bank</title>
-    <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -36,6 +37,7 @@
         console.log(localStorage.getItem("itn"));
         curr_deposits();
     }
+
     function new_deposit() {
         // getting itn by login
         $.ajax({
@@ -85,9 +87,9 @@
             cache: false,
             timeout: 600000,
             success: function (data) {
-                if(data.length === 2){
+                if (data.length === 2) {
                     window.location.href = "cantCreateDeposit.html";
-                }else{
+                } else {
                     // localStorage.setItem("dataDepositLength", data.length);
                     // var i;
                     // for (i = 0; i < data.length; i++) {
@@ -108,7 +110,8 @@
             }
         });
     }
-    function curr_deposits(){
+
+    function curr_deposits() {
         $.ajax({
             type: "GET",
             contentType: "application/json",

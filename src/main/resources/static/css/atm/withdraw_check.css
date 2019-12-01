@@ -1,0 +1,26 @@
+div {
+    padding-top: 5px;
+    text-align: center;
+}
+
+.st {
+padding-top: 10%;
+}
+
+.button {
+    color: lawngreen;
+    width: 250px;
+    height: 50px;
+    font-size: 20px;
+<!-- bootstrap --> display: inline-block;
+    text-align: center;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.buttons {
+    padding: 5% 37%;
+    width: 25%
+}

@@ -1,0 +1,36 @@
+.header2{
+    text-align: center;
+    padding-bottom: 2%;
+    font-family: Segoe UI Black;
+    font-size: 1.8rem;
+}
+
+.image{
+    width: 100px;
+    height: 100px;
+}
+
+.img_pad{
+    padding: 1% 46%;
+}
+.lines {
+    padding: 1% 35%;
+}
+
+.button {
+    color: whitesmoke;
+    background-color: #0089be;
+    width: 150px;
+    height: 60px;
+<!-- bootstrap -->
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.pad{
+    padding: 20px 0;
+}

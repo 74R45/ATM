@@ -3,22 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>ATM</title>
+    <link rel="stylesheet" href="css/atm/general_style_atm.css">
+    <link rel="stylesheet" href="css/atm/withdraw_check.css">
 </head>
 <body>
-<div id="withdrawCheck"></div>
-<button>Print</button>
-<button id="mainMenuAtm">Main menu</button>
+<div id="withdrawCheck" class="st"></div>
+<div class="buttons">
+    <button class="button">> print check</button>
+    <button class="button" id="mainMenuAtm">> back to menu</button>
+</div>
 <script>
-    window.onload = function() {
+    window.onload = function () {
         var withdrawNumber = document.createElement("DIV");
         var withdrawAmountLeft = document.createElement("DIV");
         var withdrawAmount = document.createElement("DIV");
         var withdrawTimestamp = document.createElement("DIV");
 
         withdrawNumber.innerHTML = "Card number: " + localStorage.getItem("withdrawNumber");
-        withdrawAmountLeft.innerHTML = "Current balance: " + localStorage.getItem("withdrawAmountLeft");
-        withdrawAmount.innerHTML = "Amount that you withdraw: " + localStorage.getItem("withdrawAmount");
-        withdrawTimestamp.innerHTML = "Time: " + localStorage.getItem("withdrawTimestamp");
+        withdrawAmount.innerHTML = "Withdrawal sum: " + localStorage.getItem("withdrawAmount");
+        withdrawAmountLeft.innerHTML = "Card balance: " + localStorage.getItem("withdrawAmountLeft");
+
+        var wtime = localStorage.getItem("withdrawTimestamp");
+        var date = new Date(wtime);
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        var formattedTime = date.getHours() + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        var formattedDate = ('0' + date.getDate()).substr(-2) + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + "  ";
+
+        withdrawTimestamp.innerHTML = "Time: " + formattedDate + formattedTime;
 
         withdrawNumber.id = "withdrawNumberId";
         withdrawAmountLeft.id = "withdrawAmountLeftId";
