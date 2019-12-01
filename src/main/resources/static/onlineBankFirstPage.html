@@ -44,6 +44,62 @@
         check_balance_transactions();
     };
 
+    var activateCredit = document.getElementById("activateCredit");
+    activateCredit.onclick = function () {
+        console.log("ACTIVATE CREDIT ");
+        click_activate_credit();
+    }
+    function click_activate_credit() {
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log("GET ITN BY LOGIN: ", data["itn"])
+                localStorage.setItem("itn", data["itn"]);
+                console.log("typeof itn");
+                console.log(typeof data["itn"]);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+                localStorage.setItem("dataLength", data.length);
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    localStorage.setItem("cardNum" + i, data[i]["number"]);
+                    localStorage.setItem("cardIsCredit" + i, data[i]["isCredit"]);
+                    console.log("typeof ", typeof(data[i]["isCredit"]));
+
+                    localStorage.setItem("amount" + i, data[i]["amount"]);
+                    localStorage.setItem("amountCredit" + i, data[i]["amountCredit"]);
+                    localStorage.setItem("creditLimit" + i, data[i]["creditLimit"]);
+
+                }
+
+                window.location.href = "activateCredit.html";
+            },
+
+
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+    }
     function check_balance_transactions() {
 
         $.ajax({
@@ -73,18 +129,28 @@
             cache: false,
             timeout: 600000,
             success: function (data) {
-                console.log("GET USER INFO BY ITN: ");
-                console.log(data["0"]["number"]);
-                console.log(data["0"]["isCredit"]);
-                console.log("data.length", data.length);
+                // console.log("GET USER INFO BY ITN: ");
+                // console.log(data["0"]["number"]);
+                // console.log(data["0"]["isCredit"]);
+                // console.log("data.length", data.length);
                 localStorage.setItem("dataLength", data.length);
                 var i;
                 for (i = 0; i < data.length; i++) {
                     localStorage.setItem("cardNum" + i, data[i]["number"]);
                     localStorage.setItem("cardIsCredit" + i, data[i]["isCredit"]);
+                    console.log("typeof ", typeof(data[i]["isCredit"]));
+
+                    localStorage.setItem("amount" + i, data[i]["amount"]);
+                    localStorage.setItem("amountCredit" + i, data[i]["amountCredit"]);
+                    localStorage.setItem("creditLimit" + i, data[i]["creditLimit"]);
+
                 }
-                window.location.href = "checkBalanceAndTransactions.html";
-            },
+
+                window.location.href = "selectCard.html";
+
+                },
+
+
             error: function (e) {
                 console.log("ERROR : ", e);
             }

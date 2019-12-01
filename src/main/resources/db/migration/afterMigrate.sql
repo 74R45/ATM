@@ -17,4 +17,3 @@ VALUES('5168122309583266','573829562815','2020-06-22 19:10:25-07',false,false,nu
 
 INSERT INTO administrator(login, password)
 VALUES('admin','admin');
-
