@@ -1,6 +1,6 @@
 * {
-    background-color: black;
-    color: lawngreen;
+    background-color: black; !important;
+    color: lawngreen; !important;
     font-family: Consolas;
 }
 
@@ -23,4 +23,8 @@ label {
 
 .final-button{
     padding-top: 20px;
+}
+
+.margin-right{
+    margin-left: 70%;
 }
