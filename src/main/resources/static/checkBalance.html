@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>ATM</title>
+    <link rel="stylesheet" href="css/general_style_atm.css">
+    <link rel="stylesheet" href="css/check_balance.css">
 </head>
 <body>
-<div id="balance" style="font-weight: bold; font-size: 30px; text-align: center;"></div>
+
+<div id="amount"></div>
+<div id="credit"></div>
+
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
         var amount = localStorage.getItem("amount");
         var div = document.createElement("DIV");
-        div.innerHTML = "AMOUNT: " + amount;
-        document.getElementById("balance").appendChild(div);
+        div.innerHTML = "Amount of money: " + amount;
+        document.getElementById("amount").appendChild(div);
 
 
         var creditLimit = localStorage.getItem("creditLimit");
         var divCredLimit = document.createElement("DIV");
-        divCredLimit.innerHTML = "CREDIT LIMIT: " + creditLimit;
-        document.getElementById("balance").appendChild(divCredLimit);
+        divCredLimit.innerHTML = "Credit available: " + creditLimit;
+        document.getElementById("credit").appendChild(divCredLimit);
     }
 </script>
 </body>

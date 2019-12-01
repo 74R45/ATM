@@ -1,0 +1,28 @@
+.atm-container {
+    max-width: 100%;
+    min-height: 500px;
+}
+
+.starter-template {
+    padding: 5%;
+}
+
+.lines {
+    padding: 1% 25%;
+}
+
+label {
+    padding-top: 15px;
+}
+
+p {
+    font-size: 20px;
+}
+
+.final-button {
+    padding: 20px 0;
+}
+
+.margin-right {
+    margin-left: 70%;
+}

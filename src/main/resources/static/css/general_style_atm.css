@@ -1,0 +1,11 @@
+* {
+    background-color: black; !important;
+    color: lawngreen; !important;
+    font-family: Consolas;
+    font-size: 20px;
+}
+
+input[type="text"] {
+    background-color: #151515;
+    color: whitesmoke;
+}
