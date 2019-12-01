@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online bank</title>
+</head>
+<body>
+<form class="form-horizontal" id="new-deposit-form">
+
+    <div class="form-group form-group-lg">
+        <label class="control-label">Amount of deposit: </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="depositAmount"/>
+        </div>
+    </div>
+
+    <div class="form-group form-group-lg">
+        <label class="control-label">From card: </label>
+        <select id="fromCardDeposit">
+            <option value="volvo">Volvo</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-10 btnDepAmount">
+            <button type="submit" id="bth-deposit-amount"
+                    class="btn btn-primary btn-lg">Ok
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    window.onload = function(){
+        var j;
+        var options = [];
+
+        for (j = 0; j < dataLength; j++) {
+
+            options[j] = document.createElement("OPTION");
+
+            options[j].innerHTML = "" + localStorage.getItem("cardNum" + j);
+            options[j].id = "opt" + j;
+            console.log(options[j].id);
+            document.getElementById("fromCardDeposit").appendChild(options[j]);
+
+        }
+        $("#new-deposit-form").submit(function (event) {
+            event.preventDefault();
+            create_deposit();
+        });
+        function create_deposit() {
+            var deposit = {}
+            deposit["itn"] = localStorage.getItem("itn");
+            deposit["amount"] = $("#depositAmount").val();
+            $("#bth-deposit-amount").prop("disabled", true);
+            console.log(JSON.stringify(deposit));
+
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: "/api/v1/deposit?number=" + $("#fromCardDeposit").val(),
+                data: JSON.stringify(deposit),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log("SUCCESS : ", data);
+
+                    window.location.href = "atmFirstPage.html";
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+
+                }
+            });
+        }
+    }
+
+
+</script>
+</body>
+</html>
