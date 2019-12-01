@@ -21,5 +21,8 @@ VALUES('admin','admin');
 INSERT INTO deposit(id, itn, expiration, deposited_money)
 VALUES(uuid_generate_v4(), '573829562815', '2020-06-22 19:10:25-07', 1500.00)
 
+-- INSERT INTO deposit(id, itn, expiration, deposited_money)
+-- VALUES(uuid_generate_v4(), '573829562815', '2020-06-22 19:10:25-07', 1700.00)
+
 -- INSERT INTO account(card_num, itn, expiration, is_credit_card, is_blocked, amount, amount_credit, credit_limit, PIN, attempts_left)
 -- VALUES('5168122309583267','573829562815','2020-06-22 19:10:25-07',true,false,777.77,500.50,4000.00,'this should be hashed but whatever', 3);

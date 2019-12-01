@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Online bank</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <form class="form-horizontal" id="new-deposit-form">
@@ -17,7 +21,7 @@
     <div class="form-group form-group-lg">
         <label class="control-label">From card: </label>
         <select id="fromCardDeposit">
-            <option value="volvo">Volvo</option>
+
         </select>
     </div>
 
@@ -30,6 +34,7 @@
     </div>
 </form>
 <script>
+    var dataLength = localStorage.getItem("dataDepositLength");
     window.onload = function(){
         var j;
         var options = [];
@@ -37,10 +42,10 @@
         for (j = 0; j < dataLength; j++) {
 
             options[j] = document.createElement("OPTION");
-
+            console.log("Card num ", localStorage.getItem("cardNum" + j))
             options[j].innerHTML = "" + localStorage.getItem("cardNum" + j);
             options[j].id = "opt" + j;
-            console.log(options[j].id);
+            console.log(options[j]);
             document.getElementById("fromCardDeposit").appendChild(options[j]);
 
         }
@@ -65,8 +70,7 @@
                 timeout: 600000,
                 success: function (data) {
                     console.log("SUCCESS : ", data);
-
-                    window.location.href = "atmFirstPage.html";
+                    window.location.href = "depositCreated.html";
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);

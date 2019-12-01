@@ -31,6 +31,10 @@
     newDeposit.onclick = function () {
         new_deposit();
     }
+    var currDeposits = document.getElementById("currDeposits");
+    currDeposits.onclick = function () {
+        curr_deposits();
+    }
     function new_deposit() {
         // getting itn by login
         $.ajax({
@@ -53,6 +57,28 @@
         $.ajax({
             type: "GET",
             contentType: "application/json",
+            url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+                localStorage.setItem("dataLength", data.length);
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    localStorage.setItem("cardNum" + i, data[i]["number"]);
+                }
+
+            },
+
+
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
             url: "api/v1/deposit/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
             cache: false,
@@ -61,17 +87,46 @@
                 if(data.length === 2){
                     window.location.href = "cantCreateDeposit.html";
                 }else{
-                    localStorage.setItem("dataDepositLength", data.length);
-                    var i;
-                    for (i = 0; i < data.length; i++) {
-
-                        localStorage.setItem("cardNum" + i, data[i]["number"]);
-
-
-                    }
+                    // localStorage.setItem("dataDepositLength", data.length);
+                    // var i;
+                    // for (i = 0; i < data.length; i++) {
+                    //
+                    //     localStorage.setItem("cardNum" + i, data[i]["number"]);
+                    //     // console.log(localStorage.getItem("cardNum0"));
+                    //
+                    // }
                     window.location.href = "createDeposit.html";
                 }
 
+
+            },
+
+
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+    }
+    function curr_deposits(){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "api/v1/deposit/all?itn=" + localStorage.getItem("itn"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                localStorage.setItem("dataDepositLength", data.length);
+                var i;
+                for (i = 0; i < data.length; i++) {
+
+                    localStorage.setItem("currDepAmount" + i, data[i]["amount"]);
+                    localStorage.setItem("expiration" + i, data[i]["expiration"]);
+                    localStorage.setItem("accrued" + i, data[i]["accrued"]);
+
+
+                }
+                window.location.href = "currentDeposits.html";
 
             },
 

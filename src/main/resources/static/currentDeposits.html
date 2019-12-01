@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online banking</title>
+</head>
+<body>
+<div id="currDeps">Deposits:</div>
+<button id="mainMenu">Main menu</button>
+<script>
+    var dataDepositLength = localStorage.getItem("dataDepositLength");
+    window.onload = function() {
+        var j;
+        var deposits = [];
+
+        for (j = 0; j < dataDepositLength; j++) {
+
+            deposits[j] = document.createElement("DIV");
+
+
+            console.log("isCredit ", localStorage.getItem("cardIsCredit" + j));
+            deposits[j].innerHTML = "DEPOSIT " + (j + 1) + "<br>" + "AMOUNT " + localStorage.getItem("currDepAmount" + j)
+                + "<br>" + "EXPIRATION: " + localStorage.getItem("expiration" + j)+ "<br>" + "ACCRUED: " + localStorage.getItem("accrued" + j);
+            deposits[j].id = "deposit" + j;
+            console.log(deposits[j]);
+            document.getElementById("currDeps").appendChild(deposits[j]);
+
+        }
+    }
+
+    document.getElementById("mainMenu").onclick = function () {
+        window.location.href = "onlineBankFirstPage.html";
+    };
+</script>
+</body>
+</html>
