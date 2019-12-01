@@ -24,9 +24,11 @@ CREATE TABLE account
     expiration     timestamp   NOT NULL,
     is_credit_card boolean     NOT NULL,
     is_blocked     boolean     NOT NULL,
+    deletion_time  timestamp   NULL,
     amount         decimal     NOT NULL,
     amount_credit  decimal     NOT NULL,
     credit_limit   decimal     NOT NULL,
+    next_credit_time timestamp NULL,
     PIN            varchar(64) NOT NULL,
     attempts_left  int         NOT NULL
 );
