@@ -1,12 +1,12 @@
-form{
-
-    font-weight: bold;
-    font-size: 30px;
-}
-
-.labelSumWithdraw{
+*{
     text-align: center;
 }
-.btnWithdraw{
-    text-align: center;
+
+input[type="text"] {
+    width: 30%;
+    margin: 0 35%;
+}
+
+#withdraw-form{
+    padding: 200px 100px;
 }
