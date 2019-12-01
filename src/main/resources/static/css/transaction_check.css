@@ -1,0 +1,10 @@
+@media print {
+    .print {
+        visibility: hidden;
+    }
+}
+@media print {
+    .mainMenu{
+        visibility: hidden;
+    }
+}
