@@ -49,6 +49,13 @@
         console.log("ACTIVATE CREDIT ");
         click_activate_credit();
     }
+
+    var depositMenu = document.getElementById("depositMenu");
+    depositMenu.onclick = function () {
+        console.log("DEPOSIT MENU ");
+        window.location.href = "depositMenu.html";
+    }
+
     function click_activate_credit() {
 
         $.ajax({

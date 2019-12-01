@@ -60,11 +60,11 @@
                 timeout: 600000,
                 success: function (data) {
                     console.log("SUCCESS : ", data);
-
+                    window.location.href = "creditActivated.html";
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
-
+                    window.location.href = "error.html";
                 }
             });
         }
