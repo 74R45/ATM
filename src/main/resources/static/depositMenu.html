@@ -33,6 +33,7 @@
     }
     var currDeposits = document.getElementById("currDeposits");
     currDeposits.onclick = function () {
+        console.log(localStorage.getItem("itn"));
         curr_deposits();
     }
     function new_deposit() {
@@ -111,6 +112,23 @@
         $.ajax({
             type: "GET",
             contentType: "application/json",
+            url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log("GET ITN BY LOGIN: ", data["itn"])
+                localStorage.setItem("itn", data["itn"]);
+                // console.log("typeof itn");
+                // console.log(typeof data["itn"]);
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+            }
+        });
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
             url: "api/v1/deposit/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
             cache: false,
@@ -123,7 +141,9 @@
                     localStorage.setItem("currDepAmount" + i, data[i]["amount"]);
                     localStorage.setItem("expiration" + i, data[i]["expiration"]);
                     localStorage.setItem("accrued" + i, data[i]["accrued"]);
-
+                    console.log(localStorage.getItem("currDepAmount" + i));
+                    console.log(localStorage.getItem("expiration" + i));
+                    console.log(localStorage.getItem("accrued" + i));
 
                 }
                 window.location.href = "currentDeposits.html";
