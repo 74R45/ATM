@@ -2,6 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DELETE FROM transaction;
 DELETE FROM account;
+DELETE FROM deposit;
 DELETE FROM person;
 DELETE FROM administrator;
 

@@ -32,6 +32,9 @@ public class DepositService {
 //        if (token.itn != deposit.getItn())
 //            throw new ForbiddenException();
 
+        if (getDepositsByItn(deposit.getItn()).size() >= 2)
+            throw new BadRequestException("Maximum number of deposits reached.");
+
         Optional<Account> dbAcc = accountDao.selectAccountsByItn(deposit.getItn()).stream()
                 .filter(account -> account.getNumber().equals(number))
                 .filter(account -> !account.isBlocked())
@@ -78,8 +81,8 @@ public class DepositService {
                  now = System.currentTimeMillis();
             BigDecimal accrued;
             if (exp >= now) {
-                accrued = BigDecimal.valueOf(exp - now)
-                        .divide(BigDecimal.valueOf(31556952000L), 3, RoundingMode.HALF_UP)
+                accrued = BigDecimal.valueOf(31556952000L - (exp - now), 2)
+                        .divide(BigDecimal.valueOf(31556952000L), RoundingMode.HALF_UP)
                         .multiply(new BigDecimal("0.15"))
                         .multiply(deposit.getAmount());
             } else

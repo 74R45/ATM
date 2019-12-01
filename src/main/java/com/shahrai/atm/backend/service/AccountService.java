@@ -448,7 +448,7 @@ public class AccountService {
     }
 
     private void updateBlocked(Account acc) {
-        if (acc.isBlocked() && acc.getDeletionTime().after(new Timestamp(System.currentTimeMillis())))
+        if (acc.isBlocked() && acc.getDeletionTime().before(new Timestamp(System.currentTimeMillis())))
             deleteAccount(acc.getNumber());
     }
 }
