@@ -4,9 +4,8 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <link rel="stylesheet" type="text/css"
-          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/atm_style.css">
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -17,23 +16,24 @@
 <nav class="navbar navbar-light">
     <div class="container">
         <div class="navbar-header" style="text-align: right;">
-            <a class="navbar-brand" href="#">Any questions ? 097 --- 28 90</a>
+            <a class="navbar-brand" href="#">Contact support via this number: 097 --- 28 90</a>
         </div>
     </div>
 </nav>
 
-<div class="container" style="min-height: 500px">
+<div class="col" style="background-color: black">
+<div class="container atm-container">
 
     <div class="starter-template">
         <h1>ATM</h1>
 
         <form class="form-horizontal" id="atm-form">
             <div class="form-group form-group-lg">
-                <label class="col-sm-2 control-label">Card number</label>
+                <label class="col-sm-4 control-label">Card number</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="number"/>
                 </div>
-                <label class="col-sm-2 control-label">PIN</label>
+                <label class="col-sm-4 control-label">PIN</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="pin"/>
                 </div>
@@ -41,9 +41,9 @@
             </div>
 
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-2 col-sm-10 final-button">
                     <button type="submit" id="bth-atm-user"
-                            class="btn btn-primary btn-lg">Ok
+                            class="btn btn-dark btn-lg">Continue
                     </button>
                 </div>
             </div>
@@ -60,10 +60,8 @@
         </p>
     </footer>
 </div>
-
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
-
+</div>
+<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
 </body>
