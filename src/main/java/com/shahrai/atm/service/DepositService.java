@@ -48,7 +48,7 @@ public class DepositService {
                 .findFirst();
 
         if (dbAcc.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
 
         if (!session.getAttribute("itn").equals(dbAcc.get().getItn()))

@@ -45,7 +45,7 @@ public class TransactionService {
             throw new ForbiddenException();
 
         if (start.after(end) || end.after(new Timestamp(System.currentTimeMillis())))
-            throw new BadRequestException();
+            throw new BadRequestException("Incorrect timestamps.");
 
         Optional<Account> acc = accountDao.selectAccountByNumber(number);
         if (acc.isPresent() && !session.getAttribute("itn").equals(acc.get().getItn())) {

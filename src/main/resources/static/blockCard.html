@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank admin</title>
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/cards.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -11,10 +13,14 @@
 </head>
 <body>
 
-    <div>Card: </div>
+<div class="card-select">
+    <div>Card:</div>
     <select id="cardToBlock"></select>
+</div>
+<div class="lines">
     <button id="blockCard">Block</button>
-    <button id="mainMenuAdmin">Main menu</button>
+    <button id="mainMenuAdmin">Back to main menu</button>
+</div>
 <script>
     window.onload = function () {
         var dataLength = localStorage.getItem("dataLength");
@@ -32,14 +38,15 @@
 
         }
         var butBlock = document.getElementById("blockCard");
-        butBlock.onclick = function(){
+        butBlock.onclick = function () {
             block_card_ajax();
         }
         var mainMenuAdmin = document.getElementById("mainMenuAdmin");
-        mainMenuAdmin.onclick = function(){
+        mainMenuAdmin.onclick = function () {
             window.location.href = "adminFirstPage.html";
         }
-        function block_card_ajax(){
+
+        function block_card_ajax() {
             $.ajax({
                 type: "DELETE",
                 contentType: "application/json",

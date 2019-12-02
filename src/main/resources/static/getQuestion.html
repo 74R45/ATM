@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank Admin</title>
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/admin_login.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -12,13 +14,13 @@
 <body>
 <form class="form-horizontal" id="get-question-form">
     <div class="lines">
-        <label class="control-label">Login: </label>
-        <input type="text" class="form-control" id="userLoginForAdminCheck"/>
+        <label class="control-label">User login: </label>
+        <input type="text" class="form-control" id="userLoginForAdminCheck" style="font-size: 20px"/>
     </div>
 
     <div class="form-group">
-        <div class="text-center pad">
-            <button type="submit" id="bth-get-question" class="button btn-lg">Get question</button>
+        <div class="text-center">
+            <button type="submit" id="bth-get-question" class="button">Get question</button>
         </div>
     </div>
 </form>

@@ -21,7 +21,7 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping
+    @PostMapping
     public List<Transaction> getTransactionsDuringPeriod(HttpServletRequest request,
                                                          @RequestParam("number") String number,
                                                          @RequestParam("start") Timestamp start,

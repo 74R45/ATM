@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank admin</title>
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/admin_login.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -10,16 +12,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="questionDiv"></div>
+<div id="questionDiv" style="padding: 5% 20% 0"></div>
 <form class="form-horizontal" id="verify-answer-form">
     <div class="lines">
         <label class="control-label">Answer: </label>
-        <input type="text" class="form-control" id="answer"/>
+        <input type="text" class="form-control" id="answer" style="font-size: 20px"/>
     </div>
 
     <div class="form-group">
-        <div class="text-center pad">
-            <button type="submit" id="bth-answer" class="button btn-lg">Verify</button>
+        <div class="text-center">
+            <button type="submit" id="bth-answer" class="button">Verify</button>
         </div>
     </div>
 </form>

@@ -23,6 +23,15 @@ p {
     padding: 20px 0;
 }
 
-.margin-right {
+.margin {
+    margin-top: 2%;
     margin-left: 70%;
+}
+
+.control-label{
+    padding-bottom: 2px;
+}
+
+h1{
+    padding-top: 45px;
 }

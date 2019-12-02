@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/deposit_created.css">
 </head>
 <body>
 <div>Deposit created</div>
-<button id="mainMenu">To main menu</button>
+<div>
+    <button id="mainMenu" class="button">To main menu</button>
+</div>
 <script>
-    window.onload = function(){
+    window.onload = function () {
         document.getElementById("mainMenu").onclick = function () {
             window.location.href = "onlineBankFirstPage.html";
         };

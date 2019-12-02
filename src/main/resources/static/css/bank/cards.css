@@ -1,0 +1,26 @@
+button {
+    padding-left: 10px;
+<!-- bootstrap -->
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input{
+    height: 30px;
+    border-radius: 5px;
+    border: transparent;
+    background-color: white;
+    margin-top: 5px;
+}
+
+.lines{
+    padding: 50px 0 2% 30%;
+}
+
+.card-select{
+    padding: 10% 0 0 30%;
+}

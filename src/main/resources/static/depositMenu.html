@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/deposit_menu.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -13,30 +13,21 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-6">
-            <button id="newDeposit" style="width: 300px; height: 200px; font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">New deposit
-            </button>
-        </div>
-        <div class="col-6">
-            <button id="currDeposits" style="width: 300px; height: 200px;font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">Current deposits
-            </button>
-        </div>
-
+    <div class="pad row offset-4">
+        <button id="newDeposit" class="button">New deposit</button>
+        <button id="currDeposits" class="button">Current deposits</button>
     </div>
 </div>
 <script>
     var newDeposit = document.getElementById("newDeposit");
     newDeposit.onclick = function () {
         new_deposit();
-    }
+    };
     var currDeposits = document.getElementById("currDeposits");
     currDeposits.onclick = function () {
         console.log(localStorage.getItem("itn"));
         curr_deposits();
-    }
+    };
 
     function new_deposit() {
         // getting itn by login
