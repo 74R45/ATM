@@ -4,3 +4,14 @@ app:
     username: postgres
     password: password
     pool-size: 30
+
+server:
+  ssl:
+    # The format used for the keystore. It could be set to JKS in case it is a JKS file
+    key-store-type: PKCS12
+    # The path to the keystore containing the certificate
+    key-store: src/main/resources/keystore/shahrai.p12
+    # The password used to generate the certificate
+    key-store-password: password
+    # The alias mapped to the certificate
+    key-alias: shahrai
