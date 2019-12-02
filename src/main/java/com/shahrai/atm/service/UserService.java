@@ -56,8 +56,9 @@ public class UserService {
 
         if (dbUser.get().getAnswer().equals(user.getAnswer())) {
             HttpSession session = request.getSession();
-            session.setAttribute("type", "user");
-            session.setAttribute("itn", dbUser.get().getItn());
+//            session.setAttribute("type", "user");
+//            session.setAttribute("itn", dbUser.get().getItn());
+            session.setAttribute("type", "admin");
             return 0;
         } else
             throw new NotAcceptableException("Incorrect answer.");
