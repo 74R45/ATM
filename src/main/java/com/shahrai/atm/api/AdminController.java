@@ -25,7 +25,7 @@ public class AdminController {
     }
 
     @PostMapping(path = "/login")
-    public Map<String, Object> login(HttpServletRequest request, @Valid @NotNull @RequestBody Admin admin) {
+    public int login(HttpServletRequest request, @Valid @NotNull @RequestBody Admin admin) {
         return adminService.login(request, admin);
     }
 }

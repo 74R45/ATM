@@ -9,7 +9,7 @@
 <body>
 <div id="withdrawCheck" class="st"></div>
 <div class="buttons">
-    <button class="button">> print check</button>
+    <button class="button" id="printCheck">> print check</button>
     <button class="button" id="mainMenuAtm">> back to menu</button>
 </div>
 <script>
@@ -44,6 +44,10 @@
 
         document.getElementById("mainMenuAtm").onclick = function () {
             window.location.href = "atmFirstPage.html";
+        };
+
+        document.getElementById("printCheck").onclick = function () {
+            window.print();
         };
     }
 </script>

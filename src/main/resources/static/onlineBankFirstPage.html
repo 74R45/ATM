@@ -67,24 +67,29 @@
 
     function transactions_ajax() {
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
             cache: false,
             timeout: 600000,
             success: function (data) {
-                console.log("GET ITN BY LOGIN: ", data["itn"])
-                localStorage.setItem("itn", data["itn"]);
-                console.log("typeof itn");
-                console.log(typeof data["itn"]);
+                if (data.hasOwnProperty("error")) {
+                    console.log("ERROR : ", data.message);
+                    window.alert(data.message);
+                } else {
+                    console.log("GET ITN BY LOGIN: ", data["itn"])
+                    localStorage.setItem("itn", data["itn"]);
+                    console.log("typeof itn");
+                    console.log(typeof data["itn"]);
+                }
             },
             error: function (e) {
                 console.log("ERROR : ", e);
             }
         });
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -111,7 +116,7 @@
     function click_activate_credit() {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
@@ -129,7 +134,7 @@
         });
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -163,7 +168,7 @@
     function check_balance_transactions() {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             //data: JSON.stringify(sumToWithdraw),
@@ -182,7 +187,7 @@
         });
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
