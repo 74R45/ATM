@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank admin</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="questionDiv"></div>
+<form class="form-horizontal" id="verify-answer-form">
+    <div class="lines">
+        <label class="control-label">Answer: </label>
+        <input type="text" class="form-control" id="answer"/>
+    </div>
+
+    <div class="form-group">
+        <div class="text-center pad">
+            <button type="submit" id="bth-answer" class="button btn-lg">Verify</button>
+        </div>
+    </div>
+</form>
+<script>
+
+    window.onload = function(){
+        var question = document.createElement("DIV");
+        question.innerHTML = "Question: " + localStorage.getItem("question");
+        question.id = "questionId";
+        document.getElementById("questionDiv").appendChild(question);
+
+        $("#verify-answer-form").submit(function (event) {
+            event.preventDefault();
+            verify_answer();
+        });
+        function verify_answer() {
+            var answerOnQuestion = {}
+            answerOnQuestion["login"] = localStorage.getItem("loginGetQuestion")
+            answerOnQuestion["answer"] = $("#answer").val();
+            $("#bth-answer").prop("disabled", true);
+            console.log(JSON.stringify(answerOnQuestion));
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/v1/user/login/question",
+                data: JSON.stringify(answerOnQuestion),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log("SUCCESS : ", data);
+                    window.location.href = "adminFirstPage.html";
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
