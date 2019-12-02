@@ -3,8 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank admin</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <button id="blockCard"
+                    style="width: 300px; height: 200px; font-size: 30px; margin-bottom: 20px;"
+                    class="btn btn-primary btn-lg">Block card
+            </button>
+        </div>
+        <div class="col-6">
+            <button id="unblockCard" style="width: 300px; height: 200px;font-size: 30px; margin-bottom: 20px;"
+                    class="btn btn-primary btn-lg">Unblock card
+            </button>
+        </div>
+        <div class="col">
+            <button id="deleteCard" style="width: 300px; height: 100px; font-size: 30px;"
+                    class="btn btn-primary btn-lg">Delete card
+            </button>
+        </div>
 
+    </div>
+
+</div>
+<button id="endWorkAdmin">End work</button>
+<script>
+    window.onload = function(){
+        var blockCard = document.getElementById("blockCard");
+        blockCard.onclick = function () {
+            get_all_cards();
+
+        };
+        var unblockCard = document.getElementById("unblockCard");
+        unblockCard.onclick = function () {
+            window.location.href = "unblockCard.html";
+        };
+        var deleteCard = document.getElementById("deleteCard");
+        deleteCard.onclick = function () {
+            window.location.href = "deleteCard.html";
+        };
+        var endWorkAdmin = document.getElementById("endWorkAdmin");
+        endWorkAdmin.onclick = function () {
+            window.location.href = "adminLogin.html";
+        };
+        function get_all_cards(){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "/api/v1/user?login=" + localStorage.getItem("loginGetQuestion"),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    console.log("GET ITN BY LOGIN: ", data["itn"])
+                    localStorage.setItem("itn", data["itn"]);
+
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    localStorage.setItem("dataLength", data.length);
+                    console.log( data.length);
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        localStorage.setItem("cardNum" + i, data[i]["number"]);
+                        console.log( localStorage.getItem("cardNum" + i));
+                    }
+
+
+                    window.location.href = "blockCard.html";
+                },
+
+
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>
