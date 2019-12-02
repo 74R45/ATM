@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Service
 public class AdminService {
@@ -22,16 +21,16 @@ public class AdminService {
         this.adminDao = adminDao;
     }
 
-    public Map<String, Object> login(HttpServletRequest request, Admin admin) {
+    public int login(HttpServletRequest request, Admin admin) {
         String password = adminDao.selectPassword(admin.getLogin());
         if (password.equals(""))
-            throw new NotFoundException();
+            throw new NotFoundException("Admin is not found.");
 
         if (password.equals(admin.getPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("type", "admin");
-            return Map.of("sessionToken", session.getId());
+            return 0;
         } else
-            throw new NotAcceptableException();
+            throw new NotAcceptableException("Incorrect password.");
     }
 }

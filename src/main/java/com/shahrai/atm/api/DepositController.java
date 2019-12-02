@@ -27,7 +27,7 @@ public class DepositController {
         return depositService.createDeposit(request, number, deposit);
     }
 
-    @GetMapping(path = "/all")
+    @PostMapping(path = "/all")
     public List<Map<String, Object>> getDepositsByItn(HttpServletRequest request, @RequestParam("itn") String itn) {
         return depositService.getDepositsByItn(request, itn);
     }

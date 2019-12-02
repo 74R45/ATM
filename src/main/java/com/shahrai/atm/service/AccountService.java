@@ -31,10 +31,10 @@ public class AccountService {
     public Map<String, Object> login(HttpServletRequest request, Account account) {
         Optional<Account> dbAcc = accountDao.selectAccountByNumber(account.getNumber());
         if (dbAcc.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         if (dbAcc.get().isBlocked()) {
             updateBlocked(dbAcc.get());
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
 
         HashMap<String, Object> res = new HashMap<>();
@@ -44,7 +44,6 @@ public class AccountService {
             HttpSession session = request.getSession();
             session.setAttribute("type", "atm");
             session.setAttribute("number", account.getNumber());
-            res.put("sessionToken", session.getId());
             return res;
         } else {
             int attempts = dbAcc.get().getAttemptsLeft()-1;
@@ -74,11 +73,11 @@ public class AccountService {
 
         Optional<Account> maybeAcc = accountDao.selectAccountByNumber(number);
         if (maybeAcc.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
         if (maybeAcc.get().isBlocked()) {
             updateBlocked(maybeAcc.get());
-            throw new NotFoundException();
+            throw new NotFoundException("Accont is not found.");
         }
 
         Account dbAcc = updateCredit(maybeAcc.get());
@@ -102,7 +101,7 @@ public class AccountService {
 
         Optional<Account> maybeAcc = accountDao.selectAccountByNumber(account.getNumber());
         if (maybeAcc.isEmpty() || maybeAcc.get().isBlocked()) {
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
         Account dbAcc = updateCredit(maybeAcc.get());
 
@@ -120,10 +119,10 @@ public class AccountService {
                             amountCredit, dbAcc.getCreditLimit(), nextCreditTime, dbAcc.getPin(), 3);
                     dbReturned = accountDao.updateAccountByNumber(account.getNumber(), newAccount);
                 } else {
-                    throw new BadRequestException();
+                    throw new BadRequestException("Not enough money.");
                 }
             } else
-                throw new BadRequestException();
+                throw new BadRequestException("Not enough money.");
         } else {
             Account newAccount = new Account(account.getNumber(), dbAcc.getItn(), dbAcc.getExpiration(),
                     dbAcc.isCredit(), dbAcc.isBlocked(), dbAcc.getDeletionTime(),
@@ -204,7 +203,7 @@ public class AccountService {
                 3);
 
         if (accountDao.insertAccount(acc) == -1)
-            throw new NotFoundException();
+            throw new NotFoundException("User with this ITN was not found.");
 
         return Map.of(
                 "number", acc.getNumber(),
@@ -228,11 +227,11 @@ public class AccountService {
 
         Optional<Account> dbAcc = accountDao.selectAccountByNumber(account.getNumber());
         if (dbAcc.isEmpty()) {
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
         if (dbAcc.get().isBlocked()) {
             updateBlocked(dbAcc.get());
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
 
         if (!session.getAttribute("itn").equals(dbAcc.get().getItn())) {
@@ -283,10 +282,10 @@ public class AccountService {
 
         Optional<Account> dbAcc = accountDao.selectAccountByNumber(account.getNumber());
         if (dbAcc.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         if (dbAcc.get().isBlocked()) {
             updateBlocked(dbAcc.get());
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
         if (!session.getAttribute("itn").equals(dbAcc.get().getItn()))
             throw new ForbiddenException();
@@ -332,10 +331,10 @@ public class AccountService {
     private int doBlockAccount(String number) {
         Optional<Account> maybeAcc = accountDao.selectAccountByNumber(number);
         if (maybeAcc.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         if (maybeAcc.get().isBlocked()) {
             updateBlocked(maybeAcc.get());
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         }
 
         Account dbAcc = updateCredit(maybeAcc.get());
@@ -368,7 +367,7 @@ public class AccountService {
 
         Optional<Account> dbAcc = accountDao.selectAccountByNumber(number);
         if (dbAcc.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         if (!dbAcc.get().isBlocked()) {
             throw new BadRequestException("Card is not blocked.");
         }
@@ -406,7 +405,7 @@ public class AccountService {
     private Map<String, Object> doDeleteAccount(String number) {
         Optional<Account> maybeAcc = accountDao.selectAccountByNumber(number);
         if (maybeAcc.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("Account is not found.");
         Account dbAcc = updateCredit(maybeAcc.get());
 
         accountDao.deleteAccountByNumber(number);
@@ -463,7 +462,7 @@ public class AccountService {
             );
             accountDao.updateAccountByNumber(chosen.getNumber(), newAcc);
         } else {
-            String newPin = generateRandomPin();
+            //String newPin = generateRandomPin();
             newAcc = new Account(
                     new CreditCardNumberGenerator().generate("7474", 16),
                     dbAcc.getItn(),

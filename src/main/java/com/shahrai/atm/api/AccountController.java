@@ -28,7 +28,7 @@ public class AccountController {
         return accountService.login(request, account);
     }
 
-    @GetMapping(path = "/balance")
+    @PostMapping(path = "/balance")
     public Map<String, BigDecimal> checkBalance(HttpServletRequest request, @RequestParam("number") String number) {
         return accountService.checkBalance(request, number);
     }
@@ -38,7 +38,7 @@ public class AccountController {
         return accountService.withdrawMoney(request, account);
     }
 
-    @GetMapping(path = "all")
+    @PostMapping(path = "/all")
     public List<Map<String, Object>> getAccountsByItn(HttpServletRequest request, @RequestParam String itn) {
         return accountService.getAccountsByItn(request, itn);
     }
