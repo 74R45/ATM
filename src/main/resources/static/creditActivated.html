@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/activated.css">
 </head>
 <body>
+<img src="https://webstockreview.net/images/clipart-fireworks-rainbow-3.png">
 <div>Credit activated</div>
-<button id="mainMenu">To main menu</button>
+<button class="button" id="mainMenu">Back to main menu</button>
 <script>
-    window.onload = function(){
+    window.onload = function () {
         document.getElementById("mainMenu").onclick = function () {
             window.location.href = "onlineBankFirstPage.html";
         };

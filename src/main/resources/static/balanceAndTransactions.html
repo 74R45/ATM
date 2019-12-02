@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/transactions.css">
 </head>
 <body>
-<div id="balanceAndTrans" style="font-weight: bold; font-size: 30px; text-align: center;"></div>
+<div id="balanceAndTrans"></div>
 <script>
     window.onload = function() {
         var buttonClicked = localStorage.getItem("buttonClicked");
@@ -16,24 +16,24 @@
         console.log("cardIndex ", localStorage.getItem("cardIndex"));
 
         var cardNum = buttonClicked;
-        var div = document.createElement("DIV");
-        div.innerHTML = "CARD NUMBER : " + cardNum;
+        var div = document.createElement("P");
+        div.innerHTML = "Card number : " + cardNum;
         document.getElementById("balanceAndTrans").appendChild(div);
 
 
         var balance = localStorage.getItem("amount" + cardIndex);
-        var divBalance = document.createElement("DIV");
-        divBalance.innerHTML = "BALANCE: " + balance;
+        var divBalance = document.createElement("P");
+        divBalance.innerHTML = "Balance: " + balance;
         document.getElementById("balanceAndTrans").appendChild(divBalance);
 
         var creditBalance = localStorage.getItem("amountCredit" + cardIndex);
-        var divCreditBalance = document.createElement("DIV");
-        divCreditBalance.innerHTML = "AMOUNT CREDIT : " + creditBalance;
+        var divCreditBalance = document.createElement("P");
+        divCreditBalance.innerHTML = "Credit money: " + creditBalance;
         document.getElementById("balanceAndTrans").appendChild(divCreditBalance);
 
         var creditLimit = localStorage.getItem("creditLimit" + cardIndex);
-        var divCreditLimit = document.createElement("DIV");
-        divCreditLimit.innerHTML = "CREDIT LIMIT : " + creditLimit;
+        var divCreditLimit = document.createElement("P");
+        divCreditLimit.innerHTML = "Credit limit: " + creditLimit;
         document.getElementById("balanceAndTrans").appendChild(divCreditLimit);
     }
 </script>
