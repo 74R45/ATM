@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>Online banking</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/deposits.css">
 </head>
 <body>
 <div id="currDeps">Deposits:</div>
-<button id="mainMenu">Main menu</button>
+<button id="mainMenu" class="button">Main menu</button>
 <script>
     var dataDepositLength = localStorage.getItem("dataDepositLength");
-    window.onload = function() {
+    window.onload = function () {
         var j;
         var deposits = [];
 
@@ -19,10 +19,13 @@
 
             deposits[j] = document.createElement("DIV");
 
+            var wtime = localStorage.getItem("expiration" + j);
+            var date = new Date(wtime);
+            var formattedDate = ('0' + date.getDate()).substr(-2) + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() ;
 
             console.log("isCredit ", localStorage.getItem("cardIsCredit" + j));
-            deposits[j].innerHTML = "DEPOSIT " + (j + 1) + "<br>" + "AMOUNT " + localStorage.getItem("currDepAmount" + j)
-                + "<br>" + "EXPIRATION: " + localStorage.getItem("expiration" + j)+ "<br>" + "ACCRUED: " + localStorage.getItem("accrued" + j);
+            deposits[j].innerHTML = "Deposit №  " + (j + 1) + "<br>" + "Start amount " + localStorage.getItem("currDepAmount" + j)
+                + "<br>" + "Expiration date: " + formattedDate + "<br>" + "Accrued sum: " + localStorage.getItem("accrued" + j);
             deposits[j].id = "deposit" + j;
             console.log(deposits[j]);
             document.getElementById("currDeps").appendChild(deposits[j]);

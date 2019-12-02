@@ -1,0 +1,27 @@
+.button {
+    height: 100px;
+    padding: 0 45%;
+<!-- bootstrap -->
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.lab{
+    padding-top: 20px;
+}
+
+input{
+    height: 30px;
+    border-radius: 5px;
+    border: transparent;
+    background-color: white;
+    margin-top: 5px;
+}
+
+.lines{
+    padding: 10% 40% 2% 40%;
+}

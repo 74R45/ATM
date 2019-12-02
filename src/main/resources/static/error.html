@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/error.css">
 </head>
 <body>
-<div>Something went wrong. Try again or go to main menu.</div>
-<button id="tryAgainSelectLimit">Try again</button>
-<button id="mainMenu">Main menu</button>
+<div class="text">Something went wrong. Try again or go to main menu.</div>
+<div class="buttons">
+    <button id="tryAgainSelectLimit">Try again</button>
+    <button id="mainMenu">Main menu</button>
+</div>
 <script>
-    window.onload = function(){
+    window.onload = function () {
         document.getElementById("mainMenu").onclick = function () {
             window.location.href = "onlineBankFirstPage.html";
         };
