@@ -67,7 +67,7 @@
 
     function transactions_ajax() {
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
@@ -89,7 +89,7 @@
             }
         });
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -116,7 +116,7 @@
     function click_activate_credit() {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
@@ -134,7 +134,7 @@
         });
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -168,7 +168,7 @@
     function check_balance_transactions() {
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             //data: JSON.stringify(sumToWithdraw),
@@ -187,7 +187,7 @@
         });
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',

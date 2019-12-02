@@ -32,7 +32,7 @@
     function new_deposit() {
         // getting itn by login
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
@@ -49,7 +49,7 @@
             }
         });
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -71,7 +71,7 @@
             }
         });
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "api/v1/deposit/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
@@ -104,7 +104,7 @@
 
     function curr_deposits() {
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/user?login=" + localStorage.getItem("onlineBankLogin"),
             dataType: 'json',
@@ -121,7 +121,7 @@
             }
         });
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "api/v1/deposit/all?itn=" + localStorage.getItem("itn"),
             dataType: 'json',
