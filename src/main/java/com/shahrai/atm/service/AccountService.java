@@ -148,8 +148,8 @@ public class AccountService {
             session.invalidate();
             throw new ForbiddenException("Session Expired");
         }
-        if (!session.getAttribute("type").equals("user")
-                || !session.getAttribute("itn").equals(itn))
+        if (!(session.getAttribute("type").equals("user")
+                && session.getAttribute("itn").equals(itn)) && !session.getAttribute("type").equals("admin"))
             throw new ForbiddenException();
 
         List<Account> accs = accountDao.selectAccountsByItn(itn);

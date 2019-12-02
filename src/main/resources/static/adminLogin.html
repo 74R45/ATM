@@ -42,7 +42,11 @@
         function admin_login() {
             var admin = {};
             admin["login"] = $("#adminLogin").val();
+            // var hash = sha256.create();
+            // hash.update($("#adminPass").val());
+            // hash.hex();
             admin["password"] = $("#adminPass").val();
+            console.log($("#adminPass").val());
             $("#bth-admin-login").prop("disabled", true);
             console.log(JSON.stringify(admin));
 
@@ -64,6 +68,7 @@
                     }
                 },
                 error: function (e) {
+                    window.alert(e.message);
                     console.log("ERROR : ", e);
                 }
             });

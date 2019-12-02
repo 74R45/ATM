@@ -63,7 +63,9 @@
                         window.alert("Card is deleted");
                     }
                 },
+                //forbidden
                 error: function (e) {
+                    window.alert(e.message);
                     console.log("ERROR : ", e);
                 }
             });

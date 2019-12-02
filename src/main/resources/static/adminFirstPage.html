@@ -37,7 +37,7 @@
         };
         var deleteCard = document.getElementById("deleteCard");
         deleteCard.onclick = function () {
-            window.location.href = "deleteCard.html";
+            get_all_cards2();
         };
         var endWorkAdmin = document.getElementById("endWorkAdmin");
         endWorkAdmin.onclick = function () {
@@ -62,6 +62,7 @@
                     }
                 },
                 error: function (e) {
+                    window.alert(e.message);
                     console.log("ERROR : ", e);
                 }
             });
@@ -88,6 +89,57 @@
                     }
                 },
                 error: function (e) {
+                    window.alert(e.message);
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+        function get_all_cards2() {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/v1/user?login=" + localStorage.getItem("loginGetQuestion"),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        console.log("GET ITN BY LOGIN: ", data["itn"])
+                        localStorage.setItem("itn", data["itn"]);
+                    }
+                },
+                error: function (e) {
+                    window.alert(e.message);
+                    console.log("ERROR : ", e);
+                }
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        localStorage.setItem("dataLength", data.length);
+                        console.log(data.length);
+                        var i;
+                        for (i = 0; i < data.length; i++) {
+                            localStorage.setItem("cardNum" + i, data[i]["number"]);
+                            console.log(localStorage.getItem("cardNum" + i));
+                        }
+                        window.location.href = "deleteCard.html";
+                    }
+                },
+                error: function (e) {
+                    window.alert(e.message);
                     console.log("ERROR : ", e);
                 }
             });
