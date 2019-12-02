@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/select_card.css">
 </head>
 <body>
-<div id="selectCard">Select card: </div>
+<div class="select">Select card: </div>
+<div class="btn-group-horizontal" id="selectCard"></div>
 <script type="text/javascript" src="js/main.js"></script>
 <script>
     var dataLength = localStorage.getItem("dataLength");
@@ -24,11 +25,11 @@
             if(localStorage.getItem("cardIsCredit" + j) === "true"){
                 isCredit = "Credit card";
             }else{
-                isCredit = "Not credit card";
+                isCredit = "";
             }
 
             console.log("isCredit " , localStorage.getItem("cardIsCredit" + j));
-            buttons[j].innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j) + "<br>" + isCredit;
+            buttons[j].innerHTML = "Card № " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j) + "<br>" + isCredit;
             buttons[j].id = "but" + j;
             console.log(buttons[j].id);
             document.getElementById("selectCard").appendChild(buttons[j]);

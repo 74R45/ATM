@@ -4,41 +4,25 @@
     <meta charset="UTF-8">
     <title>Online banking</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/select_limit.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="min-height: 500px">
-
-    <div class="starter-template">
-
-        <form class="form-horizontal" id="select-limit-form">
-            <div class="form-group form-group-lg">
-                <label class="col-sm-2 control-label">Select limit: </label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="creditLimit"/>
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" id="bth-credit-limit"
-                            class="btn btn-primary btn-lg">Ok
-                    </button>
-                </div>
-            </div>
-        </form>
-
+<form id="select-limit-form">
+    <div class="form-group lines">
+        <label class="control-label">Enter new credit limit: </label>
+        <input type="text" class="form-control" id="creditLimit"/>
+        <div class="but">
+            <button type="submit" id="bth-credit-limit" class="button">Set limit</button>
+        </div>
     </div>
-
-</div>
+</form>
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
         $("#select-limit-form").submit(function (event) {
             event.preventDefault();
             activate_credit();

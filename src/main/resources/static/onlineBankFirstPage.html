@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Online Bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/main_page.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -13,40 +13,33 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-6">
-            <button id="checkBalanceAndTransactions"
-                    style="width: 300px; height: 200px; font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">Check balance & Transaction history
-            </button>
+    <div class="btn-group-vertical pad_center buttons">
+        <div class="btn-group-horizontal">
+            <img class="icons"
+                 src="https://middle.pngfans.com/20190707/z/bank-card-emoji-png-credit-card-emoji-clipart-fdc156fbcef94991.jpg">
+            <button id="checkBalanceAndTransactions" class="button">Your cards</button>
+            <img class="icons"
+                 src="https://www.clipartwiki.com/clipimg/full/289-2898141_flying-money-emoji.png">
+            <button id="transactions" class="button">Transactions</button>
         </div>
-        <div class="col-6">
-            <button id="transactions" style="width: 300px; height: 200px;font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">Transactions
-            </button>
+        <div class="btn-group-horizontal">
+            <img class="icons"
+                 src="http://cdn.shopify.com/s/files/1/1061/1924/products/Money_Emoji_Icon_59b7293e-e703-4ba4-b3c3-a7b9401f89fb_grande.png?v=1571606091">
+            <button id="activateCredit" class="button">Activate credit</button>
+            <img class="icons"
+                 src="https://www.fourjay.org/myphoto/f/81/811829_pig-emoji-png.png">
+            <button id="depositMenu" class="button">Deposits</button>
         </div>
-        <div class="col">
-            <button id="activateCredit" style="width: 300px; height: 100px; font-size: 30px;"
-                    class="btn btn-primary btn-lg">Activate credit
-            </button>
-        </div>
-        <div class="col">
-            <button id="depositMenu" style="width: 300px; height: 100px;font-size: 30px;"
-                    class="btn btn-primary btn-lg">Deposit menu
-            </button>
-        </div>
-
     </div>
-
+    <button id="endWorkOnlineBank" class="button exit">Exit</button>
 </div>
-<button id="endWorkOnlineBank">End work</button>
 
 <script type="text/javascript" src="js/main.js"></script>
 
 <script>
     var endWorkOnlineBank = document.getElementById("endWorkOnlineBank");
     endWorkOnlineBank.onclick = function () {
-      window.location.href = "onlineBankLogin.html";
+        window.location.href = "onlineBankLogin.html";
     };
 
     var checkBalanceAndTransactions = document.getElementById("checkBalanceAndTransactions");
@@ -71,7 +64,8 @@
     transactions.onclick = function () {
         transactions_ajax();
     }
-    function transactions_ajax(){
+
+    function transactions_ajax() {
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -113,6 +107,7 @@
             }
         });
     }
+
     function click_activate_credit() {
 
         $.ajax({
