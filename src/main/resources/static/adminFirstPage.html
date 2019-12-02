@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Bank admin</title>
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/admin_first_page.css">
     <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -11,30 +13,19 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-6">
-            <button id="blockCard"
-                    style="width: 300px; height: 200px; font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">Block card
-            </button>
+    <div class="row" style="padding-left: 20%; padding-top: 5%">
+        <div class="lines">
+            <button id="blockCard" class="button">Block card</button>
+            <button id="unblockCard" class="button">Unblock card</button>
         </div>
-        <div class="col-6">
-            <button id="unblockCard" style="width: 300px; height: 200px;font-size: 30px; margin-bottom: 20px;"
-                    class="btn btn-primary btn-lg">Unblock card
-            </button>
+        <div class="lines">
+            <button id="deleteCard" class="button">Delete card</button>
+            <button id="endWorkAdmin" class="button">End work</button>
         </div>
-        <div class="col">
-            <button id="deleteCard" style="width: 300px; height: 100px; font-size: 30px;"
-                    class="btn btn-primary btn-lg">Delete card
-            </button>
-        </div>
-
     </div>
-
 </div>
-<button id="endWorkAdmin">End work</button>
 <script>
-    window.onload = function(){
+    window.onload = function () {
         var blockCard = document.getElementById("blockCard");
         blockCard.onclick = function () {
             get_all_cards();
@@ -52,7 +43,8 @@
         endWorkAdmin.onclick = function () {
             window.location.href = "adminLogin.html";
         };
-        function get_all_cards(){
+
+        function get_all_cards() {
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
