@@ -5,11 +5,21 @@
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
     <link rel="stylesheet" href="css/bank/transactions.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <div id="balanceAndTrans"></div>
+<p>Date from: <input type="text" id="datepicker"></p>
+<p>Date to: <input type="text" id="datepicker2"></p>
+<button id="showTransBut">Ok</button>
 <script>
     window.onload = function() {
+        var datepicker = $("#datepicker").val();
+        var datepicker2 = $("#datepicker2").val();
+
         var buttonClicked = localStorage.getItem("buttonClicked");
         console.log("Button clicked ", localStorage.getItem("buttonClicked"));
         var cardIndex = localStorage.getItem("cardIndex");
@@ -35,6 +45,39 @@
         var divCreditLimit = document.createElement("P");
         divCreditLimit.innerHTML = "Credit limit: " + creditLimit;
         document.getElementById("balanceAndTrans").appendChild(divCreditLimit);
+
+        var date = document.getElementById("datepicker");
+        date.datepicker();
+
+        var date2 = document.getElementById("datepicker2");
+        date2.datepicker();
+
+        var showTransBut = document.getElementById("showTransBut");
+        showTransBut.onclick = function(){
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/v1/transaction?number=" + buttonClicked + "&start="  + datepicker + "&end=" + datepicker2,
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        // localStorage.setItem("cardNum" + i, data[i]["number"]);
+                        console.log(data[i]["id"]);
+                        console.log(data[i]["sumOfMoney"]);
+                        console.log(data[i]["timestamp"]);
+                        console.log(data[i]["cardFrom"]);
+                        console.log(data[i]["cardTo"]);
+                    }
+
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
     }
 </script>
 </body>
