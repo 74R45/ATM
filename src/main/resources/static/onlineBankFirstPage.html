@@ -74,10 +74,15 @@
             cache: false,
             timeout: 600000,
             success: function (data) {
-                console.log("GET ITN BY LOGIN: ", data["itn"])
-                localStorage.setItem("itn", data["itn"]);
-                console.log("typeof itn");
-                console.log(typeof data["itn"]);
+                if (data.hasOwnProperty("error")) {
+                    console.log("ERROR : ", data.message);
+                    window.alert(data.message);
+                } else {
+                    console.log("GET ITN BY LOGIN: ", data["itn"])
+                    localStorage.setItem("itn", data["itn"]);
+                    console.log("typeof itn");
+                    console.log(typeof data["itn"]);
+                }
             },
             error: function (e) {
                 console.log("ERROR : ", e);
