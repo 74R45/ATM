@@ -4,31 +4,32 @@
     <meta charset="UTF-8">
     <title>Online bank</title>
     <link rel="stylesheet" href="css/bank/general_bank.css">
-    <link rel="stylesheet" href="css/bank/">
+    <link rel="stylesheet" href="css/bank/select_card.css">
 </head>
 <body>
-<div id="selectCardForCredAct">Select card: </div>
+<div class="select">Select card:</div>
+<div class="btn-group-horizontal" id="selectCardForCredAct"></div>
 <script>
     var dataLength = localStorage.getItem("dataLength");
-    window.onload = function() {
+    window.onload = function () {
         var k;
         var isCreditCount = 0;
         for (k = 0; k < dataLength; k++) {
             if (localStorage.getItem("cardIsCredit" + k) === "true") {
                 isCreditCount = 1;
                 var divYouCantMakeCardCredit = document.createElement("DIV");
-                divYouCantMakeCardCredit.innerHTML = "YOU ALREADY HAVE CREDIT CARD";
+                divYouCantMakeCardCredit.innerHTML = "\t\tYou already have one credit card, \n and you can't have more";
                 document.getElementById("selectCardForCredAct").appendChild(divYouCantMakeCardCredit);
             }
         }
-        if(isCreditCount === 0){
+        if (isCreditCount === 0) {
             var j;
             var buttons = [];
 
             for (j = 0; j < dataLength; j++) {
 
                 buttons[j] = document.createElement("BUTTON");
-                buttons[j].innerHTML = "CARD " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j);
+                buttons[j].innerHTML = "Card № " + (j + 1) + "<br>" + localStorage.getItem("cardNum" + j);
                 buttons[j].id = "but" + j;
                 console.log(buttons[j].id);
                 document.getElementById("selectCardForCredAct").appendChild(buttons[j]);
@@ -38,28 +39,28 @@
             var but0 = document.getElementById("but0");
             var but1 = document.getElementById("but1");
             var but2 = document.getElementById("but2");
-            if(but0 !== null) {
+            if (but0 !== null) {
                 but0.onclick = function () {
                     console.log("but" + localStorage.getItem("cardNum0") + " onclick ");
-                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum0"));
+                    localStorage.setItem("buttonClicked", localStorage.getItem("cardNum0"));
                     localStorage.setItem("cardIndex", "0");
                     window.location.href = "selectLimit.html";
                 }
 
             }
-            if(but1 !== null) {
+            if (but1 !== null) {
                 but1.onclick = function () {
                     console.log("but" + localStorage.getItem("cardNum1") + " onclick ");
-                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum1"));
+                    localStorage.setItem("buttonClicked", localStorage.getItem("cardNum1"));
                     localStorage.setItem("cardIndex", "1");
                     window.location.href = "selectLimit.html";
                 }
 
             }
-            if(but2 !== null) {
+            if (but2 !== null) {
                 but2.onclick = function () {
                     console.log("but" + localStorage.getItem("cardNum2") + " onclick ");
-                    localStorage.setItem("buttonClicked",  localStorage.getItem("cardNum2"));
+                    localStorage.setItem("buttonClicked", localStorage.getItem("cardNum2"));
                     localStorage.setItem("cardIndex", "2");
                     window.location.href = "selectLimit.html";
                 }
@@ -68,10 +69,7 @@
         }
 
 
-
-        }
-
-
+    }
 
 
 </script>

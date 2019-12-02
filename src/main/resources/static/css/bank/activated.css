@@ -1,0 +1,25 @@
+img {
+    width: 200px;
+    height: 200px;
+    padding: 10px 43%
+}
+
+div {
+    padding: 1% 44%;
+}
+
+.button {
+    background-color: #0089be;
+    color: whitesmoke;
+    margin-left: 44%;
+    margin-top: 5%;
+    width: 150px;
+    height: 60px;
+<!-- bootstrap -->
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}

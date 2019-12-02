@@ -1,0 +1,21 @@
+.select{
+    padding: 10% 15% 5%;
+}
+
+button{
+    padding-left: 15%;
+    width: 400px;
+    height: 100px;
+<!-- bootstrap -->
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+br{
+    padding: 2px;
+}
