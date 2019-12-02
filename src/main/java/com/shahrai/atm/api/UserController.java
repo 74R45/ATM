@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/login")
-    public Map<String, Object> login(HttpServletRequest request, @RequestBody User user) {
+    public int login(HttpServletRequest request, @RequestBody User user) {
         return userService.login(request, user);
     }
 

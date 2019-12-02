@@ -25,24 +25,24 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public Map<String, Object> login(HttpServletRequest request, User user) {
+    public int login(HttpServletRequest request, User user) {
         Optional<User> dbUser = userDao.selectUserByLogin(user.getLogin());
         if (dbUser.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("User is not found.");
 
         if (dbUser.get().getPassword().equals(user.getPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("type", "user");
             session.setAttribute("itn", dbUser.get().getItn());
-            return Map.of("sessionToken", session.getId());
+            return 0;
         } else
-            throw new NotAcceptableException();
+            throw new NotAcceptableException("Incorrect password.");
     }
 
     public Map<String, String> getLoginQuestion(String login) {
         Optional<User> dbUser = userDao.selectUserByLogin(login);
         if (dbUser.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("User is not found.");
 
         HashMap<String, String> res = new HashMap<>(1);
         res.put("question", dbUser.get().getQuestion());
@@ -50,28 +50,17 @@ public class UserService {
     }
 
     public int verifyLoginQuestion(HttpServletRequest request, User user) {
-        HttpSession session = request.getSession(false);
-        if (session == null)
-            throw new ForbiddenException();
-        if (session.getCreationTime() < System.currentTimeMillis() - 300000L) {
-            session.invalidate();
-            throw new ForbiddenException("Session Expired");
-        }
-        if (!session.getAttribute("type").equals("user"))
-            throw new ForbiddenException();
-
         Optional<User> dbUser = userDao.selectUserByLogin(user.getLogin());
         if (dbUser.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("User is not found.");
 
-        if (!session.getAttribute("itn").equals(dbUser.get().getItn())) {
-            throw new ForbiddenException();
-        }
-
-        if (dbUser.get().getAnswer().equals(user.getAnswer()))
+        if (dbUser.get().getAnswer().equals(user.getAnswer())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("type", "user");
+            session.setAttribute("itn", dbUser.get().getItn());
             return 0;
-        else
-            throw new NotAcceptableException();
+        } else
+            throw new NotAcceptableException("Incorrect answer.");
     }
 
     public Map<String, String> getUserByLogin(HttpServletRequest request, String login) {
@@ -87,7 +76,7 @@ public class UserService {
 
         Optional<User> dbUser = userDao.selectUserByLogin(login);
         if (dbUser.isEmpty())
-            throw new NotFoundException();
+            throw new NotFoundException("User is not found.");
 
         if (!session.getAttribute("itn").equals(dbUser.get().getItn())) {
             throw new ForbiddenException();
