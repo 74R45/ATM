@@ -18,7 +18,7 @@
             if (localStorage.getItem("cardIsCredit" + k) === "true") {
                 isCreditCount = 1;
                 var divYouCantMakeCardCredit = document.createElement("DIV");
-                divYouCantMakeCardCredit.innerHTML = "\t\tYou already have one credit card, \n and you can't have more";
+                divYouCantMakeCardCredit.innerHTML = "You already have one credit card, \n and you can't have more";
                 document.getElementById("selectCardForCredAct").appendChild(divYouCantMakeCardCredit);
             }
         }

@@ -1,16 +1,8 @@
-#transactionCheck {
-    padding: 10% 0 5%;
-    text-align: center;
-}
-
-div {
-    padding: 15px 0 5px;
-    text-align: center;
-}
-
 .button {
-    padding: 2% 3%;
-<!-- bootstrap --> display: inline-block;
+    width: 200px;
+    height: 100px;
+<!-- bootstrap -->
+    display: inline-block;
     text-align: center;
     vertical-align: middle;
     user-select: none;
@@ -18,6 +10,6 @@ div {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.buttons{
-    text-align: center;
+.pad{
+    padding-top: 20%;
 }

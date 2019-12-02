@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Online bank</title>
-    <link rel="stylesheet" href="css/bank/transaction_check.css">
+    <link rel="stylesheet" href="css/bank/general_bank.css">
+    <link rel="stylesheet" href="css/bank/transactions.css">
 </head>
 <body>
 <div id="transactionCheck"></div>
-<button id="print" class="print">Print</button>
-<button id="mainMenu" class="mainMenu">Main menu</button>
+<div class="buttons">
+    <button id="print" class="button">Print</button>
+    <button id="mainMenu" class="button">Back to main menu</button>
+</div>
 </body>
 <script>
-    window.onload = function(){
+    window.onload = function () {
         var transactionAmount = document.createElement("DIV");
         var transactionCardFrom = document.createElement("DIV");
         var transactionCardTo = document.createElement("DIV");
@@ -20,7 +23,16 @@
         transactionAmount.innerHTML = "Transaction sum: " + localStorage.getItem("transactionAmount");
         transactionCardFrom.innerHTML = "Card from: " + localStorage.getItem("transactionCardFrom");
         transactionCardTo.innerHTML = "Card to: " + localStorage.getItem("transactionCardTo");
-        transactionTimestamp.innerHTML = "Time: " + localStorage.getItem("transactionTimestamp");
+
+        var wtime = localStorage.getItem("transactionTimestamp");
+        var date = new Date(wtime);
+        var hours = "0" + date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2) + "  ";
+        var formattedDate = ('0' + date.getDate()).substr(-2) + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
+
+        transactionTimestamp.innerHTML = "Time: " + formattedTime + formattedDate;
 
         transactionAmount.id = "transactionAmount";
         transactionCardFrom.id = "transactionCardFrom";
@@ -36,7 +48,7 @@
             window.location.href = "onlineBankFirstPage.html";
         };
         document.getElementById("print").onclick = function () {
-          window.print();
+            window.print();
         };
     }
 </script>
