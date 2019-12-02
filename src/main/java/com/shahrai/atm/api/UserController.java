@@ -24,17 +24,17 @@ public class UserController {
         return userService.login(request, user);
     }
 
-    @GetMapping(path = "/login/question")
+    @PostMapping(path = "/login/question")
     public Map<String, String> getLoginQuestion(@RequestParam("login") String login) {
         return userService.getLoginQuestion(login);
     }
 
-    @PostMapping(path = "/login/question")
+    @PostMapping(path = "/login/question/verify")
     public int verifyLoginQuestion(HttpServletRequest request, @RequestBody User user) {
         return userService.verifyLoginQuestion(request, user);
     }
 
-    @GetMapping
+    @PostMapping
     public Map<String, String> getUserByLogin(HttpServletRequest request, @RequestParam String login) {
         return userService.getUserByLogin(request, login);
     }
