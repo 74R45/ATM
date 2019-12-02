@@ -45,8 +45,13 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    console.log("SUCCESS : ", data);
-                    window.location.href = "creditActivated.html";
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        console.log("SUCCESS : ", data);
+                        window.location.href = "creditActivated.html";
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);

@@ -44,12 +44,15 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    console.log("hello");
-                    console.log(data["question"]);
-                    localStorage.setItem("question", data["question"]);
-                    window.location.href = "verifyAnswer.html";
-
-
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        console.log("hello");
+                        console.log(data["question"]);
+                        localStorage.setItem("question", data["question"]);
+                        window.location.href = "verifyAnswer.html";
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);

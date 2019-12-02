@@ -61,9 +61,13 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    console.log("GET ITN BY LOGIN: ", data["itn"])
-                    localStorage.setItem("itn", data["itn"]);
-
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        console.log("GET ITN BY LOGIN: ", data["itn"])
+                        localStorage.setItem("itn", data["itn"]);
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
@@ -77,19 +81,20 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    localStorage.setItem("dataLength", data.length);
-                    console.log( data.length);
-                    var i;
-                    for (i = 0; i < data.length; i++) {
-                        localStorage.setItem("cardNum" + i, data[i]["number"]);
-                        console.log( localStorage.getItem("cardNum" + i));
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        localStorage.setItem("dataLength", data.length);
+                        console.log(data.length);
+                        var i;
+                        for (i = 0; i < data.length; i++) {
+                            localStorage.setItem("cardNum" + i, data[i]["number"]);
+                            console.log(localStorage.getItem("cardNum" + i));
+                        }
+                        window.location.href = "blockCard.html";
                     }
-
-
-                    window.location.href = "blockCard.html";
                 },
-
-
                 error: function (e) {
                     console.log("ERROR : ", e);
                 }

@@ -55,8 +55,13 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    console.log(data);
-                    window.alert("Card is deleted");
+                    if (data.hasOwnProperty("error")) {
+                        console.log("ERROR : ", data.message);
+                        window.alert(data.message);
+                    } else {
+                        console.log(data);
+                        window.alert("Card is deleted");
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
