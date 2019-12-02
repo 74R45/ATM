@@ -24,3 +24,14 @@ padding-top: 10%;
     padding: 5% 37%;
     width: 25%
 }
+@media print{
+    #printCheck{
+        visibility: hidden;
+    }
+}
+
+@media print{
+    #mainMenuAtm{
+        visibility: hidden;
+    }
+}

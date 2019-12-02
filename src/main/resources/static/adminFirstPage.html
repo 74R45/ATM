@@ -54,7 +54,7 @@
         };
         function get_all_cards(){
             $.ajax({
-                type: "GET",
+                type: "POST",
                 contentType: "application/json",
                 url: "/api/v1/user?login=" + localStorage.getItem("loginGetQuestion"),
                 dataType: 'json',
@@ -70,7 +70,7 @@
                 }
             });
             $.ajax({
-                type: "GET",
+                type: "POST",
                 contentType: "application/json",
                 url: "/api/v1/account/all?itn=" + localStorage.getItem("itn"),
                 dataType: 'json',

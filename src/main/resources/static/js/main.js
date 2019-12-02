@@ -33,7 +33,7 @@ $(document).ready(function () {
     function check_bal_ajax() {
         console.log(num);
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             url: "/api/v1/account/balance?number=" + localStorage.getItem("storageName"),
             // data: JSON.stringify(atmUser),
